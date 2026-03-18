@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* ── ШАПКА ── */
+header {
+  background: #000000;
+  padding: 0 40px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.logo-box {
+    display: flex;
+    align-items: center;
+}
+
+.logo-box img {
+    width: 260px;        /* ← меняй это значение */
+    height: auto;
+    object-fit: contain;
+}
+
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.2s;
+}
+
+nav a:hover {
+  opacity: 0.75;
+}
+
+.nav-icons {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.nav-icon {
+  color: #1dc8a8;
+  font-size: 22px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+
+.nav-icon:hover {
+  opacity: 0.75;
+}
+
+/* ── ОСНОВНОЙ КОНТЕНТ ── */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px 80px;
+}
+
+.page-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: #111111;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.step-label {
+  font-size: 18px;
+  color: #444;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 36px;
+}
+
+/* ── ИНДИКАТОР ШАГОВ ── */
+.steps-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 48px;
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.step-dot.active {
+  background: #1dc8a8;
+}
+
+/* ── ФОРМА ── */
+.form-container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.field-wrapper {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.field-wrapper input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #333;
+  outline: none;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  padding: 10px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.field-wrapper input::placeholder {
+  color: #aaa;
+}
+
+.field-wrapper input:focus {
+  border-bottom-color: #1dc8a8;
+}
+
+.login-hint {
+  text-align: right;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 36px;
+}
+
+.login-hint a {
+  color: #1dc8a8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-hint a:hover {
+  text-decoration: underline;
+}
+
+.btn-register {
+  width: 100%;
+  padding: 18px;
+  background: #1dc8a8;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-register:hover {
+  background: #17b096;
+}
+
+.btn-register:active {
+  transform: scale(0.98);
+}
+
+/* ── ФУТЕР ── */
+footer {
+  background: linear-gradient(135deg, #0d1b3e 0%, #0a4d68 60%, #0a8a7a 100%);
+  padding: 46px 80px 40px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.footer-inner {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.footer-logo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 180px;
+}
+
+.footer-logo-box img {
+    width: 250px;       /* ← меняй это значение */
+    height: auto;      /* высота подстраивается автоматически */
+    object-fit: contain;
+}
+
+.footer-links {
+  display: flex;
+  gap: 60px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-col a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: #1dc8a8;
+}
+
+.footer-contacts {
+  margin-left: auto;
+}
+
+.footer-contacts h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1dc8a8;
+  margin-bottom: 16px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+.contact-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contact-item span {
+  color: #1dc8a8;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.footer-social a {
+  color: #1dc8a8;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.footer-social a:hover {
+  opacity: 0.7;
+}

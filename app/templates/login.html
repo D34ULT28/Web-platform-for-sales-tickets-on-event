@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Авторизация</title>
+  <link rel="stylesheet" href="../static/css/login.css"/>
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header>
+    <div class="logo-box">
+      <img src="../static/png/Logo.png" alt="Логотип"/>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main>
+    <h1 class="page-title">Личный кабинет TicketFlow</h1>
+
+    <div class="form-row">
+      <!-- Логин -->
+      <input type="text" id="username" class="field-input" placeholder="Логин"/>
+
+      <!-- Пароль -->
+      <div class="password-wrapper">
+        <input type="password" id="password" class="field-input" placeholder="Пароль"/>
+        <button type="button" class="toggle-password" onclick="togglePassword()">
+          <svg id="eye-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Кнопка -->
+      <button class="btn-login" onclick="handleLogin()">Вход</button>
+    </div>
+
+    <!-- Ссылка на регистрацию -->
+    <div class="register-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      <a href="../templates/register.html">Регистрация</a>
+    </div>
+  </main>
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById('password');
+      const icon = document.getElementById('eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.style.stroke = '#1dc8a8';
+      } else {
+        input.type = 'password';
+        icon.style.stroke = '#555';
+      }
+    }
+
+async function handleLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username) {
+    document.getElementById('username').classList.add('error');
+    return;
+  }
+  if (!password) {
+    document.getElementById('password').classList.add('error');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://127.0.0.1:8000/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem('token', data.access_token);
+      window.location.href = '../templates/dashboard.html';
+    } else {
+      showError('Неверный логин или пароль');
+    }
+
+  } catch (error) {
+    showError('Ошибка соединения с сервером');
+  }
+}
+
+function showError(message) {
+  const old = document.querySelector('.error-msg');
+  if (old) old.remove();
+
+  const err = document.createElement('div');
+  err.className = 'error-msg';
+  err.textContent = message;
+  document.querySelector('.form-row').after(err);
+}
+
+    document.querySelectorAll('.field-input').forEach(el => {
+      el.addEventListener('input', function () {
+        this.classList.remove('error');
+      });
+    });
+  </script>
+
+</body>
+</html>

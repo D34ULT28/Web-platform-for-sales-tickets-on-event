@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TicketFlow — Продавайте билеты умнее и быстрее</title>
+  <link rel="stylesheet" href="../static/css/index.css"/>
+</head>
+<body>
+
+  <!-- ── ШАПКА ── -->
+  <header>
+    <div class="header-left">
+      <div class="logo-box">
+        <img src="../static/png/Logo.png" alt="TicketFlow"/>
+      </div>
+      <nav class="nav-main">
+       <div class="dropdown">
+  <button class="nav-btn">ПРОДАВЦАМ ↓</button>
+  <div class="dropdown-menu">
+    <a href="../templates/register.html">Регистрация</a>
+    <a href="../templates/login.html">Личный кабинет</a>
+    <a href="../templates/help.html">База знаний</a>
+    <a href="mailto:ghostarmy680@gmail.com" class="support-link">Поддержка: ghostarmy680@gmail.com</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="nav-btn">ПОКУПАТЕЛЯМ ↓</button>
+  <div class="dropdown-menu">
+    <a href="../templates/afisha.html">Афиша</a>
+    <a href="#">Возврат билета</a>
+    <a href="mailto:dragunovmisha6@gmail.com" class="support-link">Поддержка: dragunovmisha6@gmail.com</a>
+  </div>
+</div>
+      </nav>
+    </div>
+    <div class="header-right">
+      <a href="../templates/help.html">Возможности</a>
+      <a href="../templates/help.html">Обучение</a>
+      <a href="#" class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.587-1.496c.598-.19 1.365 1.26 2.179 1.815.615.42 1.082.328 1.082.328l2.172-.03s1.135-.07.597-1.001c-.044-.073-.313-.665-1.612-1.88-1.362-1.271-1.179-1.066.46-3.267.998-1.33 1.397-2.141 1.271-2.489-.12-.332-.854-.244-.854-.244l-2.444.015s-.181-.025-.315.056c-.132.08-.216.267-.216.267s-.387 1.028-.903 1.903c-1.088 1.85-1.524 1.948-1.703 1.834-.414-.267-.31-1.072-.31-1.644 0-1.786.27-2.53-.526-2.72-.265-.064-.46-.106-1.137-.113-.869-.009-1.604.003-2.02.207-.277.135-.49.437-.36.454.16.022.523.098.716.36.248.34.24 1.103.24 1.103s.142 2.103-.332 2.362c-.326.176-.773-.183-1.733-1.826-.491-.85-.862-1.79-.862-1.79s-.071-.174-.201-.267c-.157-.114-.376-.15-.376-.15l-2.322.015s-.348.01-.476.161c-.114.134-.009.412-.009.412s1.818 4.26 3.878 6.409c1.889 1.973 4.034 1.842 4.034 1.842h.972z"/>
+        </svg>
+      </a>
+      <a href="#" class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ── ГЕРОЙ ── -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Продавайте билеты<br/><span class="accent">умнее и быстрее</span></h1>
+      <p>Распространяйте, покупайте, продавайте и контролируйте все билеты. Автоматизируйте рутину, моментально получайте деньги и отчётность в режиме реального времени.</p>
+    </div>
+    <a href="../templates/event.html?id=1" class="hero-event-card">
+      <div class="hero-event-badge">🔥 Горячее</div>
+      <div class="hero-event-emoji">🎸</div>
+      <div class="hero-event-info">
+        <div class="hero-event-cat">Концерт</div>
+        <div class="hero-event-title">Рок-фестиваль<br/>Весна 2026</div>
+        <div class="hero-event-meta">
+          <span>📅 15 июня, 19:00</span>
+          <span>📍 Москва, ДК Мир</span>
+        </div>
+        <div class="hero-event-footer">
+          <span class="hero-event-price">от 1 500 ₽</span>
+          <span class="hero-event-btn">Купить билет →</span>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ── КАТЕГОРИИ ── -->
+  <section class="categories">
+    <a href="../templates/afisha.html?cat=Концерт">Концерт</a>
+    <a href="../templates/afisha.html?cat=Фестиваль">Фестиваль</a>
+    <a href="../templates/afisha.html?cat=Спорт">Спорт</a>
+    <a href="../templates/afisha.html?cat=Выставка">Выставка</a>
+    <a href="../templates/afisha.html?cat=Кино">Кино</a>
+    <a href="../templates/afisha.html?cat=Театр">Театр</a>
+    <a href="../templates/afisha.html?cat=Экскурсия">Экскурсия</a>
+  </section>
+
+  <!-- ── СОЗДАНО ДЛЯ ── -->
+  <section class="created-for">
+    <h2>Создано</h2>
+    <p class="sub">Для организаторов мероприятий и концертных агентств</p>
+    <h3>Создан</h3>
+    <p class="desc">распространять, продавать и контролировать билеты,<br/>
+    автоматизировать рутину, собирать данные о клиентах, мгновенно<br/>
+    получать выплаты и следить за отчетами онлайн</p>
+  </section>
+
+  <!-- ── ТРИ ВОПРОСА ── -->
+  <section class="questions">
+    <h2>Всего три вопроса!</h2>
+    <p class="sub">Ответьте честно — и вы поймёте, нужен ли вам TicketFlow</p>
+    <div class="questions-grid">
+      <div class="q-card">
+        <div class="q-num">1</div>
+        <p>Вам нужен полный контроль и прозрачность продаж в реальном времени?</p>
+        <span class="q-yes">✓ Да, именно это мне нужно</span>
+      </div>
+      <div class="q-card">
+        <div class="q-num">2</div>
+        <p>Вам нужен интуитивно понятный сценарий покупки в несколько кликов: выбор билета, ввод данных и оплата?</p>
+        <span class="q-yes">✓ Да, именно это мне нужно</span>
+      </div>
+      <div class="q-card">
+        <div class="q-num">3</div>
+        <p>Вам нужен простой, многофункциональный и современный сервис, который закрывает все потребности?</p>
+        <span class="q-yes">✓ Да, именно это мне нужно</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ВОЗМОЖНОСТИ ── -->
+  <section class="features">
+    <h2>Возможности сервиса</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎭</div>
+        <h4>Схемы залов</h4>
+        <p>Готовые визуальные схемы залов с возможностью выбора мест покупателем</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎟️</div>
+        <h4>Промокоды и скидки</h4>
+        <p>Автоматизированная система скидок, промокодов, акций и гибкого ценообразования</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h4>Безопасность данных</h4>
+        <p>Третьи лица не имеют доступа к вашим данным. Они в полной сохранности</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ДРУГОЙ СЕРВИС ── -->
+  <section class="switch">
+    <h2>Готовы попробовать, но используете другой сервис?</h2>
+    <p>Посетите базу знаний с информацией о сервисе и процессе запуска, а наши специалисты оперативно ответят на вопросы.</p>
+    <a href="../templates/help.html" class="btn-knowledge">База знаний</a>
+  </section>
+
+  <!-- ── CTA БЛОК ── -->
+  <section class="cta-block">
+    <div class="cta-text">
+      <h2>Организуйте продажу билетов<br/>с минимальными усилиями</h2>
+      <p>Зарегистрируйтесь и запустите продажи уже сегодня. Наши специалисты оперативно ответят на все вопросы.</p>
+    </div>
+    <div class="cta-action">
+      <a href="../templates/register.html" class="btn-start">Начать бесплатно →</a>
+      <p class="cta-hint">Регистрация занимает менее 5 минут</p>
+    </div>
+  </section>
+
+  <!-- ── ФУТЕР ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo-col">
+        <div class="footer-logo-box">
+          <img src="../static/png/Logo.png" alt="TicketFlow"/>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <a href="../templates/afisha.html">Афиша</a>
+            <a href="../templates/help.html">Помощь</a>
+          </div>
+          <div class="footer-col">
+            <a href="../templates/register.html">Регистрация</a>
+            <a href="../templates/login.html">Войти</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-contacts">
+        <h4>Контакты</h4>
+        <div class="contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1dc8a8">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <div>Поддержка для продавцов<br/><span><a href="mailto:ghostarmy680@gmail.com" class="__cf_email__" data-cfemail="d7b3a5b6b0a2b9b8a1babea4bfb6e197b0bab6bebbf9b4b8ba">ghostarmy680@gmail.com</a></span></div>
+        </div>
+        <div class="contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1dc8a8">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <div>Поддержка для покупателей<br/><span><a href="mailto:dragunovmisha6@gmail.com" class="__cf_email__" data-cfemail="f296809395879c9d849f9b819a93c4b2959f939b9edc919d9f">dragunovmisha6@gmail.com</a></span></div>
+        </div>
+                        <div class="footer-social">
+          <a href="#">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.587-1.496c.598-.19 1.365 1.26 2.179 1.815.615.42 1.082.328 1.082.328l2.172-.03s1.135-.07.597-1.001c-.044-.073-.313-.665-1.612-1.88-1.362-1.271-1.179-1.066.46-3.267.998-1.33 1.397-2.141 1.271-2.489-.12-.332-.854-.244-.854-.244l-2.444.015s-.181-.025-.315.056c-.132.08-.216.267-.216.267s-.387 1.028-.903 1.903c-1.088 1.85-1.524 1.948-1.703 1.834-.414-.267-.31-1.072-.31-1.644 0-1.786.27-2.53-.526-2.72-.265-.064-.46-.106-1.137-.113-.869-.009-1.604.003-2.02.207-.277.135-.49.437-.36.454.16.022.523.098.716.36.248.34.24 1.103.24 1.103s.142 2.103-.332 2.362c-.326.176-.773-.183-1.733-1.826-.491-.85-.862-1.79-.862-1.79s-.071-.174-.201-.267c-.157-.114-.376-.15-.376-.15l-2.322.015s-.348.01-.476.161c-.114.134-.009.412-.009.412s1.818 4.26 3.878 6.409c1.889 1.973 4.034 1.842 4.034 1.842h.972z"/>
+            </svg>
+          </a>
+          <a href="#">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* ── ШАПКА ── */
+header {
+  background: #ffffff;
+  padding: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #eeeeee;
+  flex-shrink: 0;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  width: 160px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ── ОСНОВНОЙ КОНТЕНТ ── */
+main {
+  flex: 1;
+  background: #2e5ea8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.page-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ── ФОРМА В РЯД ── */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.field-input {
+  height: 46px;
+  width: 200px;
+  border: 1.5px solid #cccccc;
+  border-radius: 6px;
+  padding: 0 14px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  outline: none;
+  background: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.field-input::placeholder {
+  color: #aaa;
+}
+
+.field-input:focus {
+  border-color: #1dc8a8;
+}
+
+.field-input.error {
+  border-color: #e74c3c;
+}
+
+/* ── ПОЛЕ ПАРОЛЯ ── */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .field-input {
+  padding-right: 44px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ── КНОПКА ВХОД ── */
+.btn-login {
+  height: 46px;
+  padding: 0 28px;
+  background: #3b6fd4;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn-login:hover {
+  background: #2d5bbf;
+}
+
+.btn-login:active {
+  transform: scale(0.97);
+}
+
+/* ── ССЫЛКА РЕГИСТРАЦИЯ ── */
+.register-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.register-link a {
+  color: #a0b4d0;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-link a:hover {
+  color: #ffffff;
+}

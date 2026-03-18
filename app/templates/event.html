@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Мероприятие — TicketFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/css/event.css"/>
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../templates/index.html" class="logo-box">
+        <img src="../static/png/Logo.png" alt="TicketFlow"/>
+      </a>
+      <nav class="header-nav">
+        <a href="../templates/index.html" class="nav-link">Главная</a>
+        <a href="../templates/afisha.html" class="nav-link">Афиша</a>
+        <a href="../templates/help.html" class="nav-link">Помощь</a>
+      </nav>
+      <a href="../templates/login.html" class="btn-header-login">Войти</a>
+    </div>
+  </header>
+
+  <!-- ЗАГРУЗКА -->
+  <div id="loading-state" class="loading-state">
+    <div class="spinner"></div>
+    <p>Загрузка мероприятия...</p>
+  </div>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main id="main-content" style="display:none;">
+
+    <!-- ГЕРОЙ МЕРОПРИЯТИЯ -->
+    <section class="event-hero">
+      <div class="event-hero-inner">
+        <div class="event-badge" id="ev-category-badge">Концерт</div>
+        <h1 id="ev-title">Название мероприятия</h1>
+        <div class="event-meta">
+          <div class="event-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="ev-date">—</span>
+          </div>
+          <div class="event-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="ev-location">—</span>
+          </div>
+          <div class="event-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span id="ev-price-info">от — ₽</span>
+          </div>
+        </div>
+        <p class="event-desc" id="ev-desc">—</p>
+      </div>
+    </section>
+
+    <!-- СХЕМА ЗАЛА + КОРЗИНА -->
+    <section class="hall-section">
+      <div class="hall-container">
+
+        <!-- СХЕМА ЗАЛА -->
+        <div class="hall-wrap">
+          <div class="stage-label">
+            <div class="stage">🎤 СЦЕНА</div>
+          </div>
+
+          <div class="legend">
+            <div class="legend-item"><div class="seat-demo free"></div> Свободно</div>
+            <div class="legend-item"><div class="seat-demo vip"></div> VIP</div>
+            <div class="legend-item"><div class="seat-demo selected"></div> Выбрано</div>
+            <div class="legend-item"><div class="seat-demo taken"></div> Занято</div>
+          </div>
+
+          <div class="hall-grid" id="hall-grid">
+            <!-- Генерируется JS -->
+          </div>
+
+          <div class="row-numbers-hint">← Ряды 1-2 VIP | Ряды 3-5 Стандарт →</div>
+        </div>
+
+        <!-- БОКОВАЯ ПАНЕЛЬ -->
+        <div class="hall-sidebar">
+          <div class="sidebar-card">
+            <h3>Выбранные места</h3>
+            <div id="selected-seats-list" class="selected-list">
+              <p class="no-seats">Нажмите на место для выбора</p>
+            </div>
+            <div class="price-total" id="price-total" style="display:none;">
+              <span>Итого:</span>
+              <strong id="total-price">0 ₽</strong>
+            </div>
+            <button class="btn-checkout" id="btn-checkout" onclick="goToCheckout()" disabled>
+              Перейти к оплате →
+            </button>
+          </div>
+
+          <div class="price-info-card">
+            <div class="price-row">
+              <span>Стандарт</span>
+              <strong id="price-std-display">— ₽</strong>
+            </div>
+            <div class="price-row vip-row">
+              <span>VIP (ряды 1-2)</span>
+              <strong id="price-vip-display">— ₽</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- МОДАЛКА ОПЛАТЫ -->
+  <div id="modal-checkout" class="modal-overlay" style="display:none;">
+    <div class="modal-checkout">
+      <button class="modal-close-btn" onclick="closeCheckout()">×</button>
+      <div class="checkout-left">
+        <h2>Оформление заказа</h2>
+        <div class="checkout-summary" id="checkout-summary"></div>
+
+        <div class="checkout-form">
+          <h3>Ваши данные</h3>
+          <div class="field-group">
+            <label>ФИО <span class="req">*</span></label>
+            <input type="text" id="ch-fio" placeholder="Иванов Иван Иванович" class="ch-input" oninput="this.style.borderColor=''"/>
+          </div>
+          <div class="field-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="ch-email" placeholder="ivan@example.com" class="ch-input" oninput="this.style.borderColor=''"/>
+          </div>
+          <div class="field-group">
+            <label>Телефон <span class="req">*</span></label>
+            <input type="tel" id="ch-phone" placeholder="+7 (999) 000-00-00" class="ch-input" oninput="formatPhone(this);this.style.borderColor=''"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-right">
+        <div class="order-summary-card">
+          <h3>Ваш заказ</h3>
+          <div id="order-items"></div>
+          <div class="order-total-row">
+            <span>Итого:</span>
+            <strong id="order-total-final">0 ₽</strong>
+          </div>
+        </div>
+        <button class="btn-pay" id="btn-pay" onclick="submitPayment()">
+          💳 Оплатить
+        </button>
+        <p class="pay-hint">Нажимая «Оплатить», вы соглашаетесь с условиями использования</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛКА УСПЕХА -->
+  <div id="modal-success" class="modal-overlay" style="display:none;">
+    <div class="modal-success">
+      <div class="success-icon">🎉</div>
+      <h2>Заказ оплачен!</h2>
+      <p id="success-order-num"></p>
+      <p>Ваш PDF-билет готов к скачиванию</p>
+      <button class="btn-download" id="btn-download-pdf" onclick="downloadPDF()">
+        ⬇ Скачать билет (PDF)
+      </button>
+      <button class="btn-back" onclick="window.location.href='../templates/afisha.html'">
+        ← Вернуться к афише
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════
+    // ДАННЫЕ
+    // ══════════════════════════════════════
+    let eventData   = null;
+    let seats       = [];       // { row, num, type, status }
+    let selectedSeats = [];     // выбранные места
+    let orderData   = null;     // данные заказа после оплаты
+
+    const ROWS      = 5;
+    const COLS      = 10;
+    const VIP_ROWS  = [1, 2];
+
+    // ══════════════════════════════════════
+    // ИНИЦИАЛИЗАЦИЯ
+    // ══════════════════════════════════════
+    async function init() {
+      const params  = new URLSearchParams(window.location.search);
+      const eventId = params.get('id');
+
+      if (!eventId) {
+        window.location.href = '../templates/afisha.html';
+        return;
+      }
+
+      try {
+        const res = await fetch('http://127.0.0.1:8000/events/' + eventId);
+        if (res.ok) {
+          eventData = await res.json();
+        }
+      } catch(e) {
+        // Демо если нет соединения
+        eventData = {
+          id: eventId,
+          title: 'Рок-концерт Весна 2026',
+          category: 'Концерт',
+          event_date: '2026-06-15T19:00:00',
+          city: 'Москва',
+          venue_name: 'ДК Мир',
+          price_standard: 1500,
+          price_vip: 3000,
+          description: 'Грандиозный рок-концерт с участием лучших групп страны. Живой звук, мощная сцена, незабываемая атмосфера!'
+        };
+      }
+
+      // Загружаем занятые места
+      await loadTakenSeats(eventId);
+
+      renderEventInfo();
+      renderHall();
+
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('main-content').style.display  = 'block';
+    }
+
+    async function loadTakenSeats(eventId) {
+      try {
+        const res = await fetch('http://127.0.0.1:8000/orders/event/' + eventId + '/seats');
+        if (res.ok) {
+          const data = await res.json();
+          // Помечаем занятые
+          data.forEach(s => {
+            if (s.status === 'booked' || s.status === 'sold') {
+              seats.push({ row: s.row_number, num: s.seat_number, status: 'taken', type: s.seat_type });
+            }
+          });
+        }
+      } catch(e) {
+        // Демо — несколько случайных занятых мест
+        [[1,3],[1,7],[2,2],[2,5],[3,4],[3,8],[4,1],[4,6],[5,3]].forEach(([r,n]) => {
+          seats.push({ row:r, num:n, status:'taken', type: r<=2?'vip':'standard' });
+        });
+      }
+    }
+
+    // ══════════════════════════════════════
+    // РЕНДЕР ИНФО
+    // ══════════════════════════════════════
+    function renderEventInfo() {
+      const ev = eventData;
+      document.title = ev.title + ' — TicketFlow';
+      document.getElementById('ev-title').textContent         = ev.title;
+      document.getElementById('ev-category-badge').textContent = ev.category || 'Мероприятие';
+      document.getElementById('ev-desc').textContent          = ev.description || '';
+      document.getElementById('ev-location').textContent      = (ev.city||'') + (ev.venue_name ? ', ' + ev.venue_name : '');
+      document.getElementById('ev-price-info').textContent    = 'от ' + (ev.price_standard||0).toLocaleString('ru') + ' ₽';
+      document.getElementById('price-std-display').textContent = (ev.price_standard||0).toLocaleString('ru') + ' ₽';
+      document.getElementById('price-vip-display').textContent = (ev.price_vip||0).toLocaleString('ru') + ' ₽';
+
+      if (ev.event_date) {
+        const d = new Date(ev.event_date);
+        document.getElementById('ev-date').textContent =
+          d.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' }) +
+          ' в ' + d.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' });
+      }
+    }
+
+    // ══════════════════════════════════════
+    // СХЕМА ЗАЛА
+    // ══════════════════════════════════════
+    function renderHall() {
+      const grid = document.getElementById('hall-grid');
+      grid.innerHTML = '';
+
+      for (let row = 1; row <= ROWS; row++) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'hall-row';
+
+        const rowLabel = document.createElement('div');
+        rowLabel.className = 'row-label';
+        rowLabel.textContent = row;
+        rowEl.appendChild(rowLabel);
+
+        for (let num = 1; num <= COLS; num++) {
+          const isVip    = VIP_ROWS.includes(row);
+          const isTaken  = seats.some(s => s.row === row && s.num === num && s.status === 'taken');
+          const seatEl   = document.createElement('div');
+
+          seatEl.className = 'seat' + (isVip ? ' vip' : '') + (isTaken ? ' taken' : ' free');
+          seatEl.dataset.row = row;
+          seatEl.dataset.num = num;
+          seatEl.dataset.type = isVip ? 'vip' : 'standard';
+          seatEl.title = `Ряд ${row}, Место ${num}${isVip ? ' (VIP)' : ''}`;
+
+          if (!isTaken) {
+            seatEl.onclick = () => toggleSeat(seatEl);
+          }
+
+          rowEl.appendChild(seatEl);
+        }
+
+        const rowLabelRight = document.createElement('div');
+        rowLabelRight.className = 'row-label';
+        rowLabelRight.textContent = row;
+        rowEl.appendChild(rowLabelRight);
+
+        grid.appendChild(rowEl);
+      }
+    }
+
+    function toggleSeat(el) {
+      const row  = parseInt(el.dataset.row);
+      const num  = parseInt(el.dataset.num);
+      const type = el.dataset.type;
+      const key  = `${row}-${num}`;
+      const idx  = selectedSeats.findIndex(s => s.key === key);
+
+      if (idx >= 0) {
+        // Снимаем выбор
+        selectedSeats.splice(idx, 1);
+        el.classList.remove('selected');
+        el.classList.add(type === 'vip' ? 'vip' : 'free');
+      } else {
+        // Выбираем (максимум 6 мест)
+        if (selectedSeats.length >= 6) {
+          showNotice('Максимум 6 мест за раз');
+          return;
+        }
+        selectedSeats.push({ key, row, num, type });
+        el.classList.remove('vip', 'free');
+        el.classList.add('selected');
+      }
+
+      updateSidebar();
+    }
+
+    function updateSidebar() {
+      const list    = document.getElementById('selected-seats-list');
+      const total   = document.getElementById('price-total');
+      const btn     = document.getElementById('btn-checkout');
+      const totalEl = document.getElementById('total-price');
+
+      if (!selectedSeats.length) {
+        list.innerHTML = '<p class="no-seats">Нажмите на место для выбора</p>';
+        total.style.display = 'none';
+        btn.disabled = true;
+        return;
+      }
+
+      let sum = 0;
+      list.innerHTML = selectedSeats.map(s => {
+        const price = s.type === 'vip' ? (eventData.price_vip||0) : (eventData.price_standard||0);
+        sum += price;
+        return `<div class="selected-seat-item">
+          <span>Ряд ${s.row}, место ${s.num} ${s.type==='vip'?'<span class="vip-tag">VIP</span>':''}</span>
+          <span>${price.toLocaleString('ru')} ₽</span>
+        </div>`;
+      }).join('');
+
+      totalEl.textContent = sum.toLocaleString('ru') + ' ₽';
+      total.style.display = 'flex';
+      btn.disabled = false;
+    }
+
+    // ══════════════════════════════════════
+    // ОПЛАТА
+    // ══════════════════════════════════════
+    function goToCheckout() {
+      if (!selectedSeats.length) return;
+
+      // Заполняем summary
+      let sum = 0;
+      const items = selectedSeats.map(s => {
+        const price = s.type === 'vip' ? (eventData.price_vip||0) : (eventData.price_standard||0);
+        sum += price;
+        return `<div class="ch-seat-item">
+          <span>Ряд ${s.row}, место ${s.num} ${s.type==='vip'?'<b style="color:#f39c12">VIP</b>':''}</span>
+          <span>${price.toLocaleString('ru')} ₽</span>
+        </div>`;
+      }).join('');
+
+      document.getElementById('checkout-summary').innerHTML = `
+        <div class="ch-event-name">${eventData.title}</div>
+        <div class="ch-event-date">${document.getElementById('ev-date').textContent}</div>
+        <div class="ch-event-loc">${document.getElementById('ev-location').textContent}</div>`;
+
+      document.getElementById('order-items').innerHTML = items;
+      document.getElementById('order-total-final').textContent = sum.toLocaleString('ru') + ' ₽';
+      document.getElementById('modal-checkout').style.display = 'flex';
+    }
+
+    function closeCheckout() {
+      document.getElementById('modal-checkout').style.display = 'none';
+    }
+
+    function formatPhone(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.startsWith('8')) v = '7' + v.slice(1);
+      if (!v.startsWith('7')) v = '7' + v;
+      v = v.slice(0, 11);
+      let fmt = '+7';
+      if (v.length > 1) fmt += ' (' + v.slice(1, 4);
+      if (v.length > 4) fmt += ') ' + v.slice(4, 7);
+      if (v.length > 7) fmt += '-' + v.slice(7, 9);
+      if (v.length > 9) fmt += '-' + v.slice(9, 11);
+      input.value = fmt;
+    }
+
+    async function submitPayment() {
+      const fio   = document.getElementById('ch-fio').value.trim();
+      const email = document.getElementById('ch-email').value.trim();
+      const phone = document.getElementById('ch-phone').value.trim();
+
+      // Валидация
+      let valid = true;
+
+      // Проверяем что поля не пустые
+      [['ch-fio',fio],['ch-email',email],['ch-phone',phone]].forEach(([id,val]) => {
+        const el = document.getElementById(id);
+        if (!val) { el.style.borderColor = '#e74c3c'; valid = false; }
+        else el.style.borderColor = '';
+      });
+
+      // Проверяем email
+      if (email && !email.includes('@')) {
+        document.getElementById('ch-email').style.borderColor = '#e74c3c';
+        valid = false;
+      }
+
+      // Убираем подсветку с ФИО если заполнено (убираем старый баг)
+      if (fio) {
+        document.getElementById('ch-fio').style.borderColor = '';
+      }
+
+      if (!valid) return;
+
+      const btn = document.getElementById('btn-pay');
+      btn.textContent = '⏳ Обработка...';
+      btn.disabled = true;
+
+      // Считаем сумму
+      const totalSum = selectedSeats.reduce((s, seat) => {
+        return s + (seat.type === 'vip' ? (eventData.price_vip||0) : (eventData.price_standard||0));
+      }, 0);
+
+      const orderNum = 'TCK-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000);
+
+      try {
+        // POST заказа в FastAPI
+        const token = localStorage.getItem('token') || '';
+        const res = await fetch('http://127.0.0.1:8000/orders/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+          },
+          body: JSON.stringify({
+            event_id:     parseInt(eventData.id),
+            user_email:   email,
+            user_name:    fio,
+            user_phone:   phone,
+            seats:        selectedSeats.map(s => ({ row: s.row, seat: s.num, type: s.type })),
+            total_price:  totalSum,
+            is_paid:      true,
+            order_number: orderNum
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          orderData = { orderNum: data.order_number || orderNum, fio, email, phone, totalSum, seats: [...selectedSeats] };
+        } else {
+          // Если API не готов — работаем в демо-режиме
+          orderData = { orderNum, fio, email, phone, totalSum, seats: [...selectedSeats] };
+        }
+      } catch(e) {
+        // Нет соединения — демо
+        orderData = { orderNum, fio, email, phone, totalSum, seats: [...selectedSeats] };
+      }
+
+      closeCheckout();
+      document.getElementById('success-order-num').textContent = 'Номер заказа: ' + orderData.orderNum;
+      document.getElementById('modal-success').style.display = 'flex';
+    }
+
+    // ══════════════════════════════════════
+    // PDF БИЛЕТ (без сервера, прямо в браузере)
+    // ══════════════════════════════════════
+    function downloadPDF() {
+      const ev    = eventData;
+      const od    = orderData;
+      const date  = document.getElementById('ev-date').textContent;
+      const loc   = document.getElementById('ev-location').textContent;
+
+      // Создаём HTML для печати → PDF
+      const seatsText = od.seats.map(s =>
+        `Ряд ${s.row}, место ${s.num} (${s.type === 'vip' ? 'VIP' : 'Стандарт'})`
+      ).join('\n');
+
+      const html = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  @page { size: A4; margin: 20mm; }
+  body { font-family: Arial, sans-serif; color: #111; }
+  .ticket { border: 3px solid #1dc8a8; border-radius: 12px; padding: 30px; max-width: 600px; margin: 0 auto; }
+  .ticket-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #1dc8a8; padding-bottom: 16px; margin-bottom: 20px; }
+  .logo-text { font-size: 28px; font-weight: 900; color: #1dc8a8; letter-spacing: -1px; }
+  .ticket-type { font-size: 13px; color: #888; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+  .event-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .event-info { font-size: 14px; color: #555; margin-bottom: 6px; }
+  .divider { border: none; border-top: 1px dashed #ccc; margin: 20px 0; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .field-value { font-size: 15px; font-weight: 600; margin-top: 4px; }
+  .seats-block { grid-column: 1/-1; background: #f8f9fa; border-radius: 8px; padding: 12px 16px; }
+  .order-num { font-size: 13px; color: #888; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee; }
+  .total-price { font-size: 22px; font-weight: 700; color: #1dc8a8; }
+  .footer-note { font-size: 11px; color: #aaa; margin-top: 20px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="ticket">
+  <div class="ticket-header">
+    <div class="logo-text">TicketFlow</div>
+    <div class="ticket-type">🎟 Электронный билет</div>
+  </div>
+  <div class="event-name">${ev.title}</div>
+  <div class="event-info">📅 ${date}</div>
+  <div class="event-info">📍 ${loc}</div>
+  <hr class="divider"/>
+  <div class="fields">
+    <div>
+      <div class="field-label">Владелец</div>
+      <div class="field-value">${od.fio}</div>
+    </div>
+    <div>
+      <div class="field-label">Email</div>
+      <div class="field-value">${od.email}</div>
+    </div>
+    <div>
+      <div class="field-label">Телефон</div>
+      <div class="field-value">${od.phone}</div>
+    </div>
+    <div>
+      <div class="field-label">Сумма</div>
+      <div class="field-value total-price">${od.totalSum.toLocaleString('ru')} ₽</div>
+    </div>
+    <div class="seats-block">
+      <div class="field-label">Места</div>
+      ${od.seats.map(s => `<div class="field-value" style="margin-top:4px;">Ряд ${s.row}, место ${s.num} — ${s.type==='vip'?'VIP':'Стандарт'}</div>`).join('')}
+    </div>
+  </div>
+  <div class="order-num">Номер заказа: <strong>${od.orderNum}</strong></div>
+  <div class="footer-note">TicketFlow · Данный билет является действительным документом для прохода на мероприятие</div>
+</div>
+</body>
+</html>`;
+
+      // Открываем окно печати → сохранить как PDF
+      const win = window.open('', '_blank', 'width=800,height=900');
+      win.document.write(html);
+      win.document.close();
+      win.focus();
+      setTimeout(() => { win.print(); }, 500);
+    }
+
+    function showNotice(msg) {
+      const n = document.createElement('div');
+      n.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:9999;';
+      n.textContent = msg;
+      document.body.appendChild(n);
+      setTimeout(() => n.remove(), 2500);
+    }
+
+    // Закрыть модалку по фону
+    document.querySelectorAll('.modal-overlay').forEach(o => {
+      o.addEventListener('click', e => {
+        if (e.target === o && o.id !== 'modal-success') o.style.display = 'none';
+      });
+    });
+
+    init();
+  </script>
+</body>
+</html>

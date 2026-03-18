@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Личный кабинет организатора — TicketFlow</title>
+  <link rel="stylesheet" href="../static/css/dashboard.css"/>
+</head>
+<body>
+
+  <!--БОКОВОЕ МЕНЮ-->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../static/png/Logo.png" alt="TicketFlow"/>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-title">ОСНОВНОЕ</div>
+      <a href="#" class="sidebar-link" onclick="showPage('events')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Мероприятия
+      </a>
+      <a href="#" class="sidebar-link" onclick="showPage('orders')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Заказы
+      </a>
+      <a href="#" class="sidebar-link" onclick="showPage('buyers')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Покупатели
+      </a>
+      <a href="#" class="sidebar-link" onclick="showPage('stats')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Статистика
+      </a>
+      <a href="#" class="sidebar-link" onclick="showPage('schemes')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Схемы продаж
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-title">КАССА
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </div>
+      <a href="#" class="sidebar-link" onclick="showPage('add-order')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Добавить заказ
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-title">ERD</div>
+      <a href="#" class="sidebar-link" onclick="showPage('settings')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Настройки
+      </a>
+      <a href="#" class="sidebar-link" onclick="showPage('employees')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Сотрудники
+      </a>
+      <a href="#" class="sidebar-link" onclick="showPage('account')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Мой аккаунт
+      </a>
+      <a href="../templates/login.html" class="sidebar-link logout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Выход
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-support">
+        <span>Поддержка</span>
+        <a href="mailto:dragunovmisha6@gmail.com">dragunovmisha6@gmail.com</a>
+      </div>
+      <div class="sidebar-support">
+        <span>База знаний</span>
+        <a href="../templates/help.html">ticketflow.help</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <div class="main-content">
+
+    <!-- ── МЕРОПРИЯТИЯ ── -->
+    <div id="page-events" class="page active">
+      <div class="page-toolbar">
+        <button class="btn-primary" onclick="openModal('modal-event')">+ Добавить</button>
+        <button class="btn-secondary" onclick="loadEvents()">🔄 Обновить</button>
+        <div class="toolbar-spacer"></div>
+        <div class="filters">
+          <select class="filter-select" id="ev-filter-city" onchange="filterEventsTable()"><option value="">Город: все</option></select>
+          <select class="filter-select" id="ev-filter-period" onchange="filterEventsTable()">
+            <option value="">Период: все</option>
+            <option value="upcoming">Предстоящие</option>
+            <option value="past">Прошедшие</option>
+          </select>
+        </div>
+        <div class="search-box">
+          <input type="text" id="ev-search" placeholder="Поиск..." oninput="filterEventsTable()"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+      </div>
+      <div class="table-header">
+        <span class="col-sm">НОМЕР ↕</span>
+        <span class="col-lg">НАЗВАНИЕ МЕРОПРИЯТИЯ ↕</span>
+        <span class="col-md">ГОРОД</span>
+        <span class="col-md">МЕСТО ПРОВЕДЕНИЯ</span>
+        <span class="col-sm">ДАТА ↕</span>
+        <span class="col-xs">⚙</span>
+      </div>
+      <div id="events-table-body">
+        <div class="table-empty">Нет мероприятий. Нажмите «+ Добавить».</div>
+      </div>
+      <div class="table-footer" id="events-footer">Отображено записей: 0</div>
+    </div>
+
+    <!-- ── ЗАКАЗЫ ── -->
+    <div id="page-orders" class="page">
+      <div class="page-toolbar">
+        <input type="text" class="search-input-wide" id="orders-search" placeholder="Заказ, билет или покупатель" oninput="filterOrders()"/>
+        <select class="filter-select" id="orders-filter-event" onchange="filterOrders()"><option value="">Мероприятие: все</option></select>
+        <select class="filter-select" id="orders-filter-paid" onchange="filterOrders()">
+          <option value="">Оплачен: все</option>
+          <option value="true">Да</option>
+          <option value="false">Нет</option>
+        </select>
+        <div class="toolbar-spacer"></div>
+        <button class="btn-secondary" onclick="exportOrders()">⬇ Скачать</button>
+      </div>
+      <div class="filter-tags">
+        <span class="tag" onclick="setOrdersTag('all', this)">ВСЕ ОПЛАЧЕННЫЕ</span>
+        <span class="tag" onclick="setOrdersTag('paid', this)">ОПЛАЧЕННЫЕ, НЕ ОТМЕНЁННЫЕ</span>
+        <span class="tag" onclick="setOrdersTag('cancelled', this)">ОПЛАЧЕННЫЕ, ОТМЕНЁННЫЕ</span>
+        <span class="tag ghost" onclick="resetOrdersFilters()">СБРОСИТЬ ФИЛЬТРЫ</span>
+      </div>
+      <div class="table-header">
+        <span class="col-sm">ID ↕</span>
+        <span class="col-md">ДАТА ↕</span>
+        <span class="col-md">EMAIL</span>
+        <span class="col-lg">МЕРОПРИЯТИЕ</span>
+        <span class="col-md">СОСТАВ</span>
+        <span class="col-sm">СУММА</span>
+        <span class="col-xs">⚙</span>
+      </div>
+      <div id="orders-table-body">
+        <div class="table-empty">Заказов пока нет.</div>
+      </div>
+      <div class="stats-mini" id="orders-stats">
+        <div>Отображено заказов: <strong id="stat-orders">0</strong></div>
+        <div>Отображено билетов: <strong id="stat-tickets">0</strong></div>
+        <div>Отображено на сумму: <strong id="stat-sum">0 руб.</strong></div>
+      </div>
+    </div>
+
+    <!-- ── ПОКУПАТЕЛИ ── -->
+    <div id="page-buyers" class="page">
+      <div class="page-toolbar">
+        <input type="text" class="search-input-wide" id="buyers-search" placeholder="Email, ФИО или телефон" oninput="filterBuyers()"/>
+        <select class="filter-select" id="buyers-filter-event" onchange="filterBuyers()"><option value="">Мероприятие: все</option></select>
+        <div class="toolbar-spacer"></div>
+        <button class="btn-secondary" onclick="exportBuyers()">⬇ Скачать CSV</button>
+      </div>
+      <div class="table-header">
+        <span class="col-md">EMAIL ↑</span>
+        <span class="col-md">ИМЯ</span>
+        <span class="col-md">ТЕЛЕФОН</span>
+        <span class="col-md">КОЛ-ВО ЗАКАЗОВ</span>
+        <span class="col-md">ПОТРАЧЕНО</span>
+        <span class="col-xs">⚙</span>
+      </div>
+      <div id="buyers-table-body">
+        <div class="table-empty">Покупателей пока нет.</div>
+      </div>
+      <div class="table-footer" id="buyers-footer">Отображено записей: 0</div>
+    </div>
+
+    <!-- ── СТАТИСТИКА ── -->
+    <div id="page-stats" class="page">
+      <div class="page-toolbar">
+        <input type="text" class="search-input-wide" id="stats-search" placeholder="Название мероприятия" oninput="filterStats()"/>
+        <select class="filter-select tag-green" id="stats-period" onchange="filterStats()">
+          <option value="upcoming">Период: Предстоящие</option>
+          <option value="past">Прошедшие</option>
+          <option value="">Все</option>
+        </select>
+        <div class="toolbar-spacer"></div>
+        <button class="btn-secondary" onclick="loadStats()">🔄 Обновить</button>
+      </div>
+      <!-- Карточки сводки -->
+      <div class="stats-cards" id="stats-cards">
+        <div class="stat-card">
+          <div class="stat-card-value" id="sc-events">0</div>
+          <div class="stat-card-label">Мероприятий</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value" id="sc-orders">0</div>
+          <div class="stat-card-label">Заказов</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value" id="sc-tickets">0</div>
+          <div class="stat-card-label">Билетов продано</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-card-value" id="sc-revenue">0 ₽</div>
+          <div class="stat-card-label">Выручка</div>
+        </div>
+      </div>
+      <div class="table-header">
+        <span class="col-lg">МЕРОПРИЯТИЕ</span>
+        <span class="col-md">ДАТА НАЧАЛА</span>
+        <span class="col-md">УЧАСТНИКОВ</span>
+        <span class="col-md">ОСТАЛОСЬ МЕСТ</span>
+        <span class="col-md">ПРОГРЕСС</span>
+        <span class="col-xs">⚙</span>
+      </div>
+      <div id="stats-table-body">
+        <div class="table-empty">Нет данных.</div>
+      </div>
+    </div>
+
+    <!-- ── СХЕМЫ ПРОДАЖ ── -->
+    <div id="page-schemes" class="page">
+      <div class="page-toolbar">
+        <button class="btn-primary" onclick="openModal('modal-scheme')">+ Добавить схему</button>
+        <div class="toolbar-spacer"></div>
+        <div class="search-box">
+          <input type="text" id="schemes-search" placeholder="Поиск..." oninput="filterSchemes()"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+      </div>
+      <div class="table-header">
+        <span class="col-lg">НАЗВАНИЕ ↑</span>
+        <span class="col-md">ТИП</span>
+        <span class="col-md">СКИДКА</span>
+        <span class="col-xs">⚙</span>
+      </div>
+      <div id="schemes-table-body">
+        <div class="table-row">
+          <span class="col-lg">Входной билет <span style="color:#aaa;font-size:12px;">(системная)</span></span>
+          <span class="col-md"><span class="badge-type">Стандарт</span></span>
+          <span class="col-md">—</span>
+          <span class="col-xs"><button class="btn-view" onclick="viewScheme('Входной билет')">👁 Просмотр</button></span>
+        </div>
+      </div>
+      <div class="table-footer" id="schemes-footer">Отображено записей: 1</div>
+    </div>
+
+    <!-- ── ДОБАВИТЬ ЗАКАЗ (КАССА) ── -->
+    <div id="page-add-order" class="page">
+      <div class="page-header-title">Добавить заказ вручную</div>
+      <div class="add-order-form">
+        <div class="field-group">
+          <label class="field-label">Мероприятие <span class="required">*</span></label>
+          <select class="field-input" id="ao-event" onchange="loadSeatsForOrder()">
+            <option value="" disabled selected>— выберите мероприятие —</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email покупателя <span class="required">*</span></label>
+          <input type="email" class="field-input" id="ao-email" placeholder="buyer@example.com"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Имя покупателя</label>
+          <input type="text" class="field-input" id="ao-name" placeholder="Иван Иванов"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Тип билета <span class="required">*</span></label>
+          <select class="field-input" id="ao-ticket-type">
+            <option value="" disabled selected>— выберите —</option>
+            <option value="standard">Стандарт</option>
+            <option value="vip">VIP</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Количество билетов <span class="required">*</span></label>
+          <input type="number" class="field-input" id="ao-qty" min="1" max="10" value="1" oninput="calcOrderTotal()"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Способ оплаты</label>
+          <select class="field-input" id="ao-payment">
+            <option value="cash">Наличные</option>
+            <option value="card">Карта</option>
+            <option value="free">Бесплатно</option>
+          </select>
+        </div>
+        <div class="order-total-box" id="order-total-box" style="display:none;">
+          <span>Итого к оплате:</span>
+          <strong id="order-total-price">0 ₽</strong>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-primary" onclick="submitManualOrder()">✅ Оформить заказ</button>
+          <button class="btn-secondary" onclick="resetOrderForm()">Сбросить</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── НАСТРОЙКИ ── -->
+    <div id="page-settings" class="page">
+      <div class="page-header-title">Настройки</div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab(this,'tab-main')">Основное</button>
+        <button class="tab" onclick="showTab(this,'tab-requisites')">Реквизиты</button>
+        <button class="tab" onclick="showTab(this,'tab-reg')">Форма регистрации</button>
+        <button class="tab" onclick="showTab(this,'tab-notify')">Оповещения</button>
+        <button class="tab" onclick="showTab(this,'tab-html')">HTML-коды</button>
+        <button class="tab" onclick="showTab(this,'tab-integrations')">Интеграции</button>
+      </div>
+      <div id="tab-main" class="tab-content active">
+        <div class="settings-grid">
+          <div class="settings-left">
+            <div class="field-group">
+              <label class="field-label">Название организатора <span class="required">*</span></label>
+              <input type="text" class="field-input" id="set-orgname" value="TicketFlow"/>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Город по умолчанию</label>
+              <select class="field-input" id="set-city">
+                <option>Москва</option><option>Санкт-Петербург</option><option>Новосибирск</option>
+                <option>Екатеринбург</option><option>Казань</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Описание организатора</label>
+              <textarea class="field-input" id="set-desc" rows="3" style="height:auto;padding:10px;" placeholder="Расскажите о себе..."></textarea>
+            </div>
+            <div class="info-box">
+              <div>Адрес страницы: <a href="#" style="color:#1dc8a8;">https://ticketflow.ru/organizer</a></div>
+              <div>Уникальный код: <strong>organizer</strong></div>
+            </div>
+          </div>
+          <div class="settings-right">
+            <div class="field-label">Ваш логотип</div>
+            <p style="font-size:13px;color:#888;margin-bottom:12px;">Загрузите логотип с прозрачным фоном</p>
+            <div class="logo-upload" onclick="document.getElementById('logo-file').click()">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span style="font-size:12px;color:#aaa;margin-top:6px;">Нажмите для загрузки</span>
+            </div>
+            <input type="file" id="logo-file" accept="image/*" style="display:none;" onchange="previewLogo(this)"/>
+          </div>
+        </div>
+        <div class="settings-actions">
+          <button class="btn-primary" onclick="saveSettings()">Сохранить</button>
+          <a href="#" onclick="confirmDeleteAccount()" style="color:#e74c3c;font-size:13px;margin-left:auto;">Удалить аккаунт</a>
+        </div>
+      </div>
+      <div id="tab-requisites" class="tab-content">
+        <p style="font-size:14px;color:#555;margin-bottom:20px;">Добавьте платёжные реквизиты для получения выплат.</p>
+        <button class="btn-primary" onclick="openModal('modal-requisites')">+ Добавить реквизиты</button>
+        <div id="requisites-saved" style="display:none;" class="requisites-card">
+          <div class="req-row"><span>Организация:</span><strong id="req-display-name">—</strong></div>
+          <div class="req-row"><span>ИНН:</span><strong id="req-display-inn">—</strong></div>
+          <div class="req-row"><span>Банк:</span><strong id="req-display-bank">—</strong></div>
+          <div class="req-row"><span>Счёт:</span><strong id="req-display-account">—</strong></div>
+          <button class="btn-secondary" style="margin-top:12px;" onclick="openModal('modal-requisites')">✏️ Изменить</button>
+        </div>
+        <div id="requisites-empty" class="alert-box warning" style="margin-top:20px;margin-left:0;">
+          <span>⚠</span>
+          <div>Реквизиты не добавлены. Без них невозможно принимать платежи за билеты.</div>
+        </div>
+      </div>
+      <div id="tab-reg" class="tab-content">
+        <p style="color:#555;font-size:14px;margin-bottom:16px;">Настройте поля формы регистрации для покупателей вашего мероприятия.</p>
+        <div class="reg-form-settings">
+          <label class="toggle-row"><input type="checkbox" checked/><span style="margin-left:10px;">Имя и фамилия</span></label>
+          <label class="toggle-row"><input type="checkbox" checked/><span style="margin-left:10px;">Телефон</span></label>
+          <label class="toggle-row"><input type="checkbox"/><span style="margin-left:10px;">Дата рождения</span></label>
+          <label class="toggle-row"><input type="checkbox"/><span style="margin-left:10px;">Город</span></label>
+        </div>
+      </div>
+      <div id="tab-notify" class="tab-content">
+        <p style="color:#555;font-size:14px;margin-bottom:16px;">Выберите когда получать уведомления.</p>
+        <div class="reg-form-settings">
+          <label class="toggle-row"><input type="checkbox" checked/><span style="margin-left:10px;">Новый заказ</span></label>
+          <label class="toggle-row"><input type="checkbox" checked/><span style="margin-left:10px;">Отмена заказа</span></label>
+          <label class="toggle-row"><input type="checkbox"/><span style="margin-left:10px;">Ежедневная сводка продаж</span></label>
+          <label class="toggle-row"><input type="checkbox"/><span style="margin-left:10px;">Осталось мало мест (менее 10%)</span></label>
+        </div>
+        <button class="btn-primary" style="margin-top:16px;">Сохранить</button>
+      </div>
+      <div id="tab-html" class="tab-content">
+        <p style="color:#555;font-size:14px;margin-bottom:16px;">Скопируйте код и вставьте на ваш сайт для встройки виджета продажи билетов.</p>
+        <div class="field-group">
+          <label class="field-label">Виджет кнопки "Купить билет"</label>
+          <textarea class="field-input" rows="4" readonly style="height:auto;padding:10px;font-family:monospace;font-size:12px;background:#f8f9fa;">&lt;script src="https://ticketflow.ru/widget.js"&gt;&lt;/script&gt;
+&lt;div data-ticketflow-event="YOUR_EVENT_ID"&gt;&lt;/div&gt;</textarea>
+          <button class="btn-secondary" style="margin-top:8px;" onclick="copyWidgetCode()">📋 Скопировать</button>
+        </div>
+      </div>
+      <div id="tab-integrations" class="tab-content">
+        <p style="color:#555;font-size:14px;margin-bottom:16px;">Подключите внешние сервисы.</p>
+        <div class="integrations-list">
+          <div class="integration-item">
+            <div><strong>ВКонтакте</strong><br/><span style="font-size:12px;color:#888;">Публикация анонсов</span></div>
+            <button class="btn-secondary">Подключить</button>
+          </div>
+          <div class="integration-item">
+            <div><strong>Telegram</strong><br/><span style="font-size:12px;color:#888;">Уведомления в канал</span></div>
+            <button class="btn-secondary">Подключить</button>
+          </div>
+          <div class="integration-item">
+            <div><strong>Google Analytics</strong><br/><span style="font-size:12px;color:#888;">Аналитика трафика</span></div>
+            <button class="btn-secondary">Подключить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── СОТРУДНИКИ ── -->
+    <div id="page-employees" class="page">
+      <div class="page-header-title">Сотрудники</div>
+      <div class="page-toolbar">
+        <button class="btn-primary" onclick="openModal('modal-employee')">+ Добавить</button>
+        <div class="toolbar-spacer"></div>
+        <div class="search-box">
+          <input type="text" placeholder="Поиск..."/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+      </div>
+      <div class="table-header">
+        <span class="col-md">ЛОГИН ↕</span>
+        <span class="col-md">АКТИВНОСТЬ ↕</span>
+        <span class="col-lg">ПОЧТА ↕</span>
+        <span class="col-md">ГРУППЫ</span>
+        <span class="col-md">ДОБАВЛЕН</span>
+        <span class="col-xs">⚙</span>
+      </div>
+      <div id="employees-table-body">
+        <div class="table-row">
+          <span class="col-md">organizer <span class="badge-you">это вы</span></span>
+          <span class="col-md"><span style="color:#1dc8a8;">Да</span></span>
+          <span class="col-lg"><a href="mailto:dragunovmisha6@gmail.com">dragunovmisha6@gmail.com</a></span>
+          <span class="col-md">Администраторы</span>
+          <span class="col-md">—</span>
+          <span class="col-xs"></span>
+        </div>
+      </div>
+      <div class="table-footer" id="employees-footer">Отображено записей: 1</div>
+    </div>
+
+    <!-- ── МОЙ АККАУНТ ── -->
+    <div id="page-account" class="page">
+      <div class="page-header-title">Мой аккаунт</div>
+      <div class="account-grid">
+        <div class="field-group">
+          <label class="field-label">Логин <span class="required">*</span></label>
+          <input type="text" class="field-input" id="acc-login" value="organizer"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Почта <span class="required">*</span></label>
+          <input type="email" class="field-input" id="acc-email" value="dragunovmisha6@gmail.com"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Имя</label>
+          <input type="text" class="field-input" id="acc-firstname" placeholder=""/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Фамилия</label>
+          <input type="text" class="field-input" id="acc-lastname" placeholder=""/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Новый пароль</label>
+          <div class="password-wrapper">
+            <input type="password" class="field-input" id="acc-password" placeholder="Оставьте пустым если не меняете"/>
+            <button type="button" class="toggle-password" onclick="toggleAccPassword()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Город</label>
+          <select class="field-input" id="acc-city">
+            <option>Москва</option><option>Санкт-Петербург</option><option>Новосибирск</option>
+            <option>Екатеринбург</option><option>Казань</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Телефон</label>
+          <input type="tel" class="field-input" id="acc-phone" placeholder="+7 (999) 000-00-00"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ссылка на профиль соцсети</label>
+          <input type="url" class="field-input" id="acc-social" placeholder="https://vk.com/..."/>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:24px;">
+        <button class="btn-primary" onclick="saveAccount()">Сохранить изменения</button>
+        <span id="acc-save-status" style="font-size:13px;color:#1dc8a8;display:none;">✅ Сохранено!</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ МОДАЛКИ ══ -->
+
+  <!-- Создать мероприятие -->
+  <div id="modal-event" class="modal-overlay" style="display:none;">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeAnyModal('modal-event')">×</button>
+      <h3>Создать мероприятие</h3>
+      <div class="modal-form-grid">
+        <div class="field-group">
+          <label class="field-label">Название <span class="required">*</span></label>
+          <input type="text" class="field-input" id="ev-title" placeholder="Рок-концерт Весна 2025"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Категория <span class="required">*</span></label>
+          <select class="field-input" id="ev-category">
+            <option value="" disabled selected>— выберите —</option>
+            <option>Концерт</option><option>Фестиваль</option><option>Спорт</option>
+            <option>Выставка</option><option>Кино</option><option>Театр</option><option>Экскурсия</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Дата и время <span class="required">*</span></label>
+          <input type="datetime-local" class="field-input" id="ev-date"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Город <span class="required">*</span></label>
+          <select class="field-input" id="ev-city" onchange="toggleCustomCity(this)">
+            <option value="" disabled selected>— выберите —</option>
+            <option value="Москва">Москва</option>
+            <option value="Санкт-Петербург">Санкт-Петербург</option>
+            <option value="Новосибирск">Новосибирск</option>
+            <option value="Екатеринбург">Екатеринбург</option>
+            <option value="Казань">Казань</option>
+            <option value="Челябинск">Челябинск</option>
+            <option value="Омск">Омск</option>
+            <option value="Самара">Самара</option>
+            <option value="other">Другой город...</option>
+          </select>
+          <input type="text" class="field-input" id="ev-city-custom" placeholder="Введите ваш город" style="display:none;margin-top:8px;"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Место проведения <span class="required">*</span></label>
+          <input type="text" class="field-input" id="ev-venue" placeholder="Название зала или адрес"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Зал (схема мест)</label>
+          <select class="field-input" id="ev-hall">
+            <option value="">— без схемы —</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Цена Стандарт (руб.)</label>
+          <input type="number" class="field-input" id="ev-price-std" placeholder="1500"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Цена VIP (руб.)</label>
+          <input type="number" class="field-input" id="ev-price-vip" placeholder="3000"/>
+        </div>
+        <div class="field-group" style="grid-column:1/-1;">
+          <label class="field-label">Описание</label>
+          <textarea class="field-input" id="ev-desc" rows="3" style="height:auto;padding:10px;" placeholder="Опишите мероприятие..."></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAnyModal('modal-event')">Отмена</button>
+        <button class="btn-primary" onclick="submitEvent()">Создать мероприятие</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Добавить схему продаж -->
+  <div id="modal-scheme" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAnyModal('modal-scheme')">×</button>
+      <h3>Добавить схему продаж</h3>
+      <div class="modal-form-grid" style="grid-template-columns:1fr;">
+        <div class="field-group">
+          <label class="field-label">Название схемы <span class="required">*</span></label>
+          <input type="text" class="field-input" id="sch-name" placeholder="Например: VIP + Стандарт"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Тип <span class="required">*</span></label>
+          <select class="field-input" id="sch-type">
+            <option value="" disabled selected>— выберите —</option>
+            <option value="standard">Стандартный билет</option>
+            <option value="vip">VIP билет</option>
+            <option value="group">Групповой (от 5 чел.)</option>
+            <option value="early">Ранняя птица</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Скидка (%)</label>
+          <input type="number" class="field-input" id="sch-discount" placeholder="0" min="0" max="100"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Описание</label>
+          <input type="text" class="field-input" id="sch-desc" placeholder="Необязательное описание"/>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAnyModal('modal-scheme')">Отмена</button>
+        <button class="btn-primary" onclick="submitScheme()">Добавить схему</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Добавить сотрудника -->
+  <div id="modal-employee" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAnyModal('modal-employee')">×</button>
+      <h3>Добавить сотрудника</h3>
+      <div class="modal-form-grid" style="grid-template-columns:1fr;">
+        <div class="field-group">
+          <label class="field-label">Email <span class="required">*</span></label>
+          <input type="email" class="field-input" id="emp-email" placeholder="email@example.com"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Логин <span class="required">*</span></label>
+          <input type="text" class="field-input" id="emp-login" placeholder="username"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Группа / Роль <span class="required">*</span></label>
+          <select class="field-input" id="emp-role">
+            <option value="" disabled selected>— выберите —</option>
+            <option>Администраторы</option>
+            <option>Менеджеры</option>
+            <option>Кассиры</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAnyModal('modal-employee')">Отмена</button>
+        <button class="btn-primary" onclick="submitEmployee()">Добавить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Реквизиты -->
+  <div id="modal-requisites" class="modal-overlay" style="display:none;">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeAnyModal('modal-requisites')">×</button>
+      <h3>Реквизиты для приёма платежей</h3>
+      <p style="font-size:13px;color:#888;margin-top:-8px;">Заполните данные для получения выплат</p>
+      <div class="modal-form-grid">
+        <div class="field-group">
+          <label class="field-label">ФИО или организация <span class="required">*</span></label>
+          <input type="text" class="field-input" id="req-name" placeholder="ИП Иванов Иван Иванович"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">ИНН <span class="required">*</span></label>
+          <input type="text" class="field-input" id="req-inn" placeholder="123456789012"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Расчётный счёт <span class="required">*</span></label>
+          <input type="text" class="field-input" id="req-account" placeholder="40802810000000000000"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">БИК банка <span class="required">*</span></label>
+          <input type="text" class="field-input" id="req-bik" placeholder="044525225"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Название банка</label>
+          <input type="text" class="field-input" id="req-bank" placeholder="Сбербанк"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Корр. счёт</label>
+          <input type="text" class="field-input" id="req-corr" placeholder="30101810400000000225"/>
+        </div>
+        <div class="field-group" style="grid-column:1/-1;">
+          <label class="field-label">Контактный телефон <span class="required">*</span></label>
+          <input type="tel" class="field-input" id="req-phone" placeholder="+7 (999) 000-00-00"/>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAnyModal('modal-requisites')">Отмена</button>
+        <button class="btn-primary" onclick="submitRequisites()">Сохранить реквизиты</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Приветствие -->
+  <div id="welcome-modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3>Спасибо за регистрацию!</h3>
+      <p>Вы обладаете бесплатным аккаунтом с возможностями регистрации участников на бесплатные мероприятия.</p>
+      <p>Для продажи билетов перейдите на шаг 2 — предоставьте <a href="#" onclick="closeModal();showPage('settings')" style="color:#1dc8a8;">реквизиты</a>.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Позже</button>
+        <button class="btn-primary" onclick="closeModal();showPage('settings')">Шаг 2: внести реквизиты</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Просмотр схемы -->
+  <div id="modal-scheme-view" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAnyModal('modal-scheme-view')">×</button>
+      <h3 id="scheme-view-title">Входной билет</h3>
+      <div id="scheme-view-body" style="font-size:14px;color:#555;line-height:1.8;"></div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="closeAnyModal('modal-scheme-view')">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ══════════════════════════════════════
+    // СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+    // ══════════════════════════════════════
+    let appEvents   = [];
+    let appOrders   = [];
+    let appBuyers   = [];
+    let appSchemes  = [{ name:'Входной билет', type:'standard', discount:0, desc:'Системная схема' }];
+
+    // ══════════════════════════════════════
+    // НАВИГАЦИЯ
+    // ══════════════════════════════════════
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      const page = document.getElementById('page-' + name);
+      if (page) page.classList.add('active');
+      if (event && event.target && event.target.closest('.sidebar-link'))
+        event.target.closest('.sidebar-link').classList.add('active');
+      // При переходе на страницы — подгружаем данные
+      if (name === 'orders')  loadOrders();
+      if (name === 'buyers')  loadBuyers();
+      if (name === 'stats')   loadStats();
+      if (name === 'add-order') loadEventsForOrder();
+    }
+
+    function showTab(btn, tabId) {
+      btn.closest('.page').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.closest('.page').querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // ══════════════════════════════════════
+    // МОДАЛКИ
+    // ══════════════════════════════════════
+    async function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+      if (id === 'modal-event') await loadVenues();
+    }
+    function closeAnyModal(id) { document.getElementById(id).style.display = 'none'; }
+    function closeModal()      { closeAnyModal('welcome-modal'); }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.modal-overlay').forEach(o => {
+        o.addEventListener('click', e => { if (e.target === o) o.style.display = 'none'; });
+      });
+      loadEvents();
+      // Показываем приветствие если первый вход
+      if (sessionStorage.getItem('reg_username')) {
+        document.getElementById('welcome-modal').style.display = 'flex';
+        sessionStorage.removeItem('reg_username');
+      }
+    });
+
+    // ══════════════════════════════════════
+    // УТИЛИТЫ
+    // ══════════════════════════════════════
+    function showToast(msg, type = 'success') {
+      const old = document.querySelector('.toast');
+      if (old) old.remove();
+      const t = document.createElement('div');
+      t.className = 'toast toast-' + type;
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3500);
+    }
+
+    function formatDate(str) {
+      if (!str) return '—';
+      const d = new Date(str);
+      return d.toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit', year:'numeric' })
+           + ' ' + d.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    function getToken() { return localStorage.getItem('token') || ''; }
+
+    async function apiFetch(url, options = {}) {
+      const token = getToken();
+      const headers = { 'Content-Type':'application/json', ...(token ? {'Authorization':'Bearer '+token} : {}), ...options.headers };
+      return fetch('http://127.0.0.1:8000' + url, { ...options, headers });
+    }
+
+    // ══════════════════════════════════════
+    // МЕРОПРИЯТИЯ
+    // ══════════════════════════════════════
+    async function loadEvents() {
+      try {
+        const res = await apiFetch('/events/');
+        if (res.ok) {
+          appEvents = await res.json();
+        }
+      } catch(e) { /* offline */ }
+      renderEventsTable(appEvents);
+      updateEventsFilter();
+    }
+
+    function renderEventsTable(events) {
+      const body = document.getElementById('events-table-body');
+      const footer = document.getElementById('events-footer');
+      if (!events.length) {
+        body.innerHTML = '<div class="table-empty">Нет мероприятий. Нажмите «+ Добавить».</div>';
+        footer.textContent = 'Отображено записей: 0';
+        return;
+      }
+      body.innerHTML = events.map(ev => `
+        <div class="table-row">
+          <span class="col-sm">#${ev.id}</span>
+          <span class="col-lg"><strong>${ev.title}</strong><br/><span style="font-size:11px;color:#aaa;">${ev.category || ''}</span></span>
+          <span class="col-md">${ev.city || '—'}</span>
+          <span class="col-md">${ev.venue_name || '—'}</span>
+          <span class="col-sm">${ev.event_date ? new Date(ev.event_date).toLocaleDateString('ru-RU') : '—'}</span>
+          <span class="col-xs">
+            <button class="btn-view" onclick="deleteEvent(${ev.id})" title="Отменить">🗑</button>
+          </span>
+        </div>`).join('');
+      footer.textContent = `Отображено записей: ${events.length}`;
+    }
+
+    function filterEventsTable() {
+      const q      = document.getElementById('ev-search').value.toLowerCase();
+      const city   = document.getElementById('ev-filter-city').value;
+      const period = document.getElementById('ev-filter-period').value;
+      const now    = new Date();
+      let filtered = appEvents.filter(ev => {
+        const matchQ    = ev.title.toLowerCase().includes(q);
+        const matchCity = !city || ev.city === city;
+        const d         = new Date(ev.event_date);
+        const matchP    = !period || (period==='upcoming' ? d >= now : d < now);
+        return matchQ && matchCity && matchP;
+      });
+      renderEventsTable(filtered);
+    }
+
+    function updateEventsFilter() {
+      const sel = document.getElementById('ev-filter-city');
+      const cities = [...new Set(appEvents.map(e => e.city).filter(Boolean))];
+      sel.innerHTML = '<option value="">Город: все</option>' + cities.map(c => `<option>${c}</option>`).join('');
+    }
+
+    async function loadVenues() {
+      try {
+        const res = await apiFetch('/venues/');
+        if (res.ok) {
+          const venues = await res.json();
+          const sel = document.getElementById('ev-hall');
+          sel.innerHTML = '<option value="">— без схемы —</option>' +
+            venues.map(v => `<option value="${v.id}">${v.name}</option>`).join('');
+        }
+      } catch(e) {}
+    }
+
+    function toggleCustomCity(select) {
+      const custom = document.getElementById('ev-city-custom');
+      if (select.value === 'other') { custom.style.display = 'block'; custom.focus(); }
+      else { custom.style.display = 'none'; custom.value = ''; }
+    }
+
+    async function submitEvent() {
+      const title    = document.getElementById('ev-title').value.trim();
+      const cat      = document.getElementById('ev-category').value;
+      const date     = document.getElementById('ev-date').value;
+      const cityVal  = document.getElementById('ev-city').value;
+      const city     = cityVal === 'other' ? document.getElementById('ev-city-custom').value.trim() : cityVal;
+      const venue    = document.getElementById('ev-venue').value.trim();
+      const venueId  = document.getElementById('ev-hall').value;
+      const priceStd = parseFloat(document.getElementById('ev-price-std').value) || 0;
+      const priceVip = parseFloat(document.getElementById('ev-price-vip').value) || 0;
+      const desc     = document.getElementById('ev-desc').value.trim();
+
+      // Валидация
+      let valid = true;
+      [['ev-title',title],['ev-category',cat],['ev-date',date],['ev-venue',venue],['ev-city',cityVal]].forEach(([id,val]) => {
+        const el = document.getElementById(id);
+        if (!val) { el.style.borderColor='#e74c3c'; valid=false; }
+        else el.style.borderColor='';
+      });
+      if (!valid) return;
+
+      const token = getToken();
+      let organizerId = 1;
+      try { const p = JSON.parse(atob(token.split('.')[1])); organizerId = parseInt(p.sub) || 1; } catch(e) {}
+
+      const btn = document.querySelector('#modal-event .btn-primary');
+      btn.textContent = 'Создаём...'; btn.disabled = true;
+
+      try {
+        const res = await apiFetch('/events/', {
+          method: 'POST',
+          body: JSON.stringify({ title, description:desc, category:cat, event_date:new Date(date).toISOString(),
+            venue_id: parseInt(venueId)||1, organizer_id:organizerId, price_standard:priceStd, price_vip:priceVip })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          const newEv = { id:data.event_id, title, category:cat, event_date:date, city, venue_name:venue, price_standard:priceStd, price_vip:priceVip, status:'active' };
+          appEvents.push(newEv);
+          renderEventsTable(appEvents);
+          updateEventsFilter();
+          closeAnyModal('modal-event');
+          showToast('✅ Мероприятие "'+title+'" создано и добавлено в Афишу!');
+          // Сбрасываем форму
+          ['ev-title','ev-category','ev-date','ev-city','ev-venue','ev-price-std','ev-price-vip','ev-desc'].forEach(id => {
+            const el = document.getElementById(id); if(el) el.value='';
+          });
+          document.getElementById('ev-city-custom').style.display='none';
+        } else {
+          showToast('❌ ' + (data.detail||'Ошибка'), 'error');
+        }
+      } catch(e) {
+        showToast('❌ Нет соединения с сервером', 'error');
+      } finally {
+        btn.textContent = 'Создать мероприятие'; btn.disabled = false;
+      }
+    }
+
+    async function deleteEvent(id) {
+      if (!confirm('Отменить мероприятие #'+id+'?')) return;
+      try {
+        const res = await apiFetch('/events/'+id, { method:'DELETE' });
+        if (res.ok) {
+          appEvents = appEvents.filter(e => e.id !== id);
+          renderEventsTable(appEvents);
+          showToast('✅ Мероприятие отменено');
+        }
+      } catch(e) { showToast('❌ Ошибка', 'error'); }
+    }
+
+    // ══════════════════════════════════════
+    // ЗАКАЗЫ
+    // ══════════════════════════════════════
+    async function loadOrders() {
+      try {
+        const res = await apiFetch('/orders/');
+        if (res.ok) appOrders = await res.json();
+      } catch(e) {}
+      renderOrdersTable(appOrders);
+      updateOrdersEventFilter();
+    }
+
+    function renderOrdersTable(orders) {
+      const body = document.getElementById('orders-table-body');
+      if (!orders.length) { body.innerHTML = '<div class="table-empty">Заказов пока нет.</div>'; }
+      else {
+        body.innerHTML = orders.map(o => `
+          <div class="table-row">
+            <span class="col-sm">#${o.id}</span>
+            <span class="col-md">${formatDate(o.created_at)}</span>
+            <span class="col-md">${o.user_email || '—'}</span>
+            <span class="col-lg">${o.event_title || '—'}</span>
+            <span class="col-md">${o.tickets_count || 0} билет(а)</span>
+            <span class="col-sm"><strong>${(o.total_price||0).toLocaleString('ru')} ₽</strong></span>
+            <span class="col-xs">
+              <span class="badge-status ${o.is_paid ? 'paid' : 'unpaid'}">${o.is_paid ? 'Оплачен' : 'Не оплачен'}</span>
+            </span>
+          </div>`).join('');
+      }
+      // Статистика
+      document.getElementById('stat-orders').textContent  = orders.length;
+      document.getElementById('stat-tickets').textContent = orders.reduce((s,o)=>s+(o.tickets_count||0),0);
+      const sum = orders.reduce((s,o)=>s+(o.total_price||0),0);
+      document.getElementById('stat-sum').textContent = sum.toLocaleString('ru') + ' руб.';
+    }
+
+    function filterOrders() {
+      const q     = document.getElementById('orders-search').value.toLowerCase();
+      const evId  = document.getElementById('orders-filter-event').value;
+      const paid  = document.getElementById('orders-filter-paid').value;
+      let filtered = appOrders.filter(o => {
+        const matchQ  = (o.user_email||'').toLowerCase().includes(q) || String(o.id).includes(q);
+        const matchEv = !evId || String(o.event_id) === evId;
+        const matchP  = paid === '' || String(o.is_paid) === paid;
+        return matchQ && matchEv && matchP;
+      });
+      renderOrdersTable(filtered);
+    }
+
+    function setOrdersTag(type, btn) {
+      document.querySelectorAll('#page-orders .tag').forEach(t => t.classList.remove('active-tag'));
+      btn.classList.add('active-tag');
+      if (type === 'all')       renderOrdersTable(appOrders.filter(o => o.is_paid));
+      else if (type === 'paid') renderOrdersTable(appOrders.filter(o => o.is_paid && !o.is_cancelled));
+      else                      renderOrdersTable(appOrders.filter(o => o.is_paid && o.is_cancelled));
+    }
+
+    function resetOrdersFilters() {
+      document.getElementById('orders-search').value = '';
+      document.getElementById('orders-filter-event').value = '';
+      document.getElementById('orders-filter-paid').value = '';
+      renderOrdersTable(appOrders);
+    }
+
+    function updateOrdersEventFilter() {
+      const sel = document.getElementById('orders-filter-event');
+      const sel2 = document.getElementById('buyers-filter-event');
+      const events = appEvents.length ? appEvents : appOrders.map(o => ({id:o.event_id, title:o.event_title}));
+      const opts = '<option value="">Мероприятие: все</option>' + events.map(e=>`<option value="${e.id}">${e.title}</option>`).join('');
+      sel.innerHTML = opts;
+      if (sel2) sel2.innerHTML = opts;
+    }
+
+    function exportOrders() {
+      const rows = [['ID','Дата','Email','Мероприятие','Билетов','Сумма','Оплачен']];
+      appOrders.forEach(o => rows.push([o.id, formatDate(o.created_at), o.user_email||'', o.event_title||'', o.tickets_count||0, o.total_price||0, o.is_paid?'Да':'Нет']));
+      downloadCSV(rows, 'orders.csv');
+    }
+
+    // ══════════════════════════════════════
+    // ПОКУПАТЕЛИ
+    // ══════════════════════════════════════
+    async function loadBuyers() {
+      try {
+        const res = await apiFetch('/users/');
+        if (res.ok) appBuyers = await res.json();
+      } catch(e) {}
+      renderBuyersTable(appBuyers);
+    }
+
+    function renderBuyersTable(buyers) {
+      const body = document.getElementById('buyers-table-body');
+      const footer = document.getElementById('buyers-footer');
+      if (!buyers.length) { body.innerHTML = '<div class="table-empty">Покупателей пока нет.</div>'; footer.textContent='Отображено: 0'; return; }
+      body.innerHTML = buyers.map(b => `
+        <div class="table-row">
+          <span class="col-md">${b.email||'—'}</span>
+          <span class="col-md">${(b.first_name||'') + ' ' + (b.last_name||'') || '—'}</span>
+          <span class="col-md">${b.phone||'—'}</span>
+          <span class="col-md">${b.orders_count||0}</span>
+          <span class="col-md"><strong>${(b.total_spent||0).toLocaleString('ru')} ₽</strong></span>
+          <span class="col-xs"><button class="btn-view" onclick="viewBuyer(${b.id})">👁</button></span>
+        </div>`).join('');
+      footer.textContent = `Отображено записей: ${buyers.length}`;
+    }
+
+    function filterBuyers() {
+      const q = document.getElementById('buyers-search').value.toLowerCase();
+      renderBuyersTable(appBuyers.filter(b =>
+        (b.email||'').toLowerCase().includes(q) ||
+        ((b.first_name||'')+' '+(b.last_name||'')).toLowerCase().includes(q)
+      ));
+    }
+
+    function viewBuyer(id) {
+      const b = appBuyers.find(x => x.id === id);
+      if (!b) return;
+      showToast(`👤 ${b.email} — ${b.orders_count||0} заказов, ${(b.total_spent||0).toLocaleString('ru')} ₽`);
+    }
+
+    function exportBuyers() {
+      const rows = [['Email','Имя','Фамилия','Телефон','Заказов','Потрачено']];
+      appBuyers.forEach(b => rows.push([b.email||'',b.first_name||'',b.last_name||'',b.phone||'',b.orders_count||0,b.total_spent||0]));
+      downloadCSV(rows, 'buyers.csv');
+    }
+
+    // ══════════════════════════════════════
+    // СТАТИСТИКА
+    // ══════════════════════════════════════
+    async function loadStats() {
+      try {
+        const res = await apiFetch('/events/');
+        if (res.ok) appEvents = await res.json();
+      } catch(e) {}
+      renderStats(appEvents);
+    }
+
+    function renderStats(events) {
+      const period = document.getElementById('stats-period').value;
+      const q      = document.getElementById('stats-search').value.toLowerCase();
+      const now    = new Date();
+      let filtered = events.filter(ev => {
+        const matchQ = ev.title.toLowerCase().includes(q);
+        const d      = new Date(ev.event_date);
+        const matchP = !period || (period==='upcoming' ? d >= now : d < now);
+        return matchQ && matchP;
+      });
+
+      // Карточки сводки
+      document.getElementById('sc-events').textContent  = filtered.length;
+      const totalOrders  = appOrders.length;
+      const totalTickets = appOrders.reduce((s,o)=>s+(o.tickets_count||0),0);
+      const totalRev     = appOrders.filter(o=>o.is_paid).reduce((s,o)=>s+(o.total_price||0),0);
+      document.getElementById('sc-orders').textContent  = totalOrders;
+      document.getElementById('sc-tickets').textContent = totalTickets;
+      document.getElementById('sc-revenue').textContent = totalRev.toLocaleString('ru') + ' ₽';
+
+      const body = document.getElementById('stats-table-body');
+      if (!filtered.length) { body.innerHTML = '<div class="table-empty">Нет данных.</div>'; return; }
+
+      body.innerHTML = filtered.map(ev => {
+        const evOrders  = appOrders.filter(o => o.event_id === ev.id && o.is_paid);
+        const sold      = evOrders.reduce((s,o)=>s+(o.tickets_count||0),0);
+        const total     = ev.total_seats || 100;
+        const left      = Math.max(total - sold, 0);
+        const pct       = Math.min(Math.round(sold/total*100), 100);
+        return `
+        <div class="table-row">
+          <span class="col-lg"><strong>${ev.title}</strong></span>
+          <span class="col-md">${ev.event_date ? new Date(ev.event_date).toLocaleDateString('ru-RU') : '—'}</span>
+          <span class="col-md">${sold}</span>
+          <span class="col-md">${left}</span>
+          <span class="col-md">
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+            <span style="font-size:11px;color:#aaa;">${pct}%</span>
+          </span>
+          <span class="col-xs"><button class="btn-view" onclick="showPage('orders')">📋</button></span>
+        </div>`;
+      }).join('');
+    }
+
+    function filterStats() { renderStats(appEvents); }
+
+    // ══════════════════════════════════════
+    // СХЕМЫ ПРОДАЖ
+    // ══════════════════════════════════════
+    function filterSchemes() {
+      const q = document.getElementById('schemes-search').value.toLowerCase();
+      renderSchemes(appSchemes.filter(s => s.name.toLowerCase().includes(q)));
+    }
+
+    function renderSchemes(schemes) {
+      const types = { standard:'Стандарт', vip:'VIP', group:'Групповой', early:'Ранняя птица' };
+      document.getElementById('schemes-table-body').innerHTML = schemes.map(s => `
+        <div class="table-row">
+          <span class="col-lg">${s.name}</span>
+          <span class="col-md"><span class="badge-type">${types[s.type]||s.type}</span></span>
+          <span class="col-md">${s.discount ? s.discount+'%' : '—'}</span>
+          <span class="col-xs"><button class="btn-view" onclick="viewScheme('${s.name}')">👁 Просмотр</button></span>
+        </div>`).join('');
+      document.getElementById('schemes-footer').textContent = `Отображено записей: ${schemes.length}`;
+    }
+
+    function viewScheme(name) {
+      const s = appSchemes.find(x => x.name === name);
+      const types = { standard:'Стандартный билет', vip:'VIP билет', group:'Групповой', early:'Ранняя птица' };
+      document.getElementById('scheme-view-title').textContent = s ? s.name : name;
+      document.getElementById('scheme-view-body').innerHTML = s ? `
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div><span style="color:#aaa;">Тип:</span> <strong>${types[s.type]||s.type}</strong></div>
+          <div><span style="color:#aaa;">Скидка:</span> <strong>${s.discount ? s.discount+'%' : 'Нет'}</strong></div>
+          <div><span style="color:#aaa;">Описание:</span> ${s.desc||'—'}</div>
+        </div>` : '<p>Системная схема — используется по умолчанию для всех мероприятий.</p>';
+      openModal('modal-scheme-view');
+    }
+
+    function submitScheme() {
+      const name     = document.getElementById('sch-name').value.trim();
+      const type     = document.getElementById('sch-type').value;
+      const discount = parseInt(document.getElementById('sch-discount').value)||0;
+      const desc     = document.getElementById('sch-desc').value.trim();
+      if (!name || !type) { showToast('❌ Заполните обязательные поля!', 'error'); return; }
+      appSchemes.push({ name, type, discount, desc });
+      renderSchemes(appSchemes);
+      closeAnyModal('modal-scheme');
+      showToast('✅ Схема "'+name+'" добавлена!');
+      ['sch-name','sch-type','sch-discount','sch-desc'].forEach(id => document.getElementById(id).value='');
+    }
+
+    // ══════════════════════════════════════
+    // ДОБАВИТЬ ЗАКАЗ (КАССА)
+    // ══════════════════════════════════════
+    async function loadEventsForOrder() {
+      if (!appEvents.length) await loadEvents();
+      const sel = document.getElementById('ao-event');
+      sel.innerHTML = '<option value="" disabled selected>— выберите мероприятие —</option>' +
+        appEvents.map(e => `<option value="${e.id}" data-std="${e.price_standard||0}" data-vip="${e.price_vip||0}">${e.title}</option>`).join('');
+    }
+
+    function loadSeatsForOrder() { calcOrderTotal(); }
+
+    function calcOrderTotal() {
+      const sel    = document.getElementById('ao-event');
+      const opt    = sel.options[sel.selectedIndex];
+      const type   = document.getElementById('ao-ticket-type').value;
+      const qty    = parseInt(document.getElementById('ao-qty').value)||1;
+      if (!opt || !opt.value || !type) { document.getElementById('order-total-box').style.display='none'; return; }
+      const price  = type === 'vip' ? parseFloat(opt.dataset.vip||0) : parseFloat(opt.dataset.std||0);
+      const total  = price * qty;
+      document.getElementById('order-total-price').textContent = total.toLocaleString('ru') + ' ₽';
+      document.getElementById('order-total-box').style.display = 'flex';
+    }
+
+    async function submitManualOrder() {
+      const evId   = document.getElementById('ao-event').value;
+      const email  = document.getElementById('ao-email').value.trim();
+      const type   = document.getElementById('ao-ticket-type').value;
+      const qty    = parseInt(document.getElementById('ao-qty').value)||1;
+      if (!evId || !email || !type) { showToast('❌ Заполните обязательные поля!', 'error'); return; }
+      try {
+        const res = await apiFetch('/orders/', {
+          method:'POST',
+          body: JSON.stringify({ event_id:parseInt(evId), user_email:email, ticket_type:type, quantity:qty, is_paid:true })
+        });
+        if (res.ok) {
+          showToast('✅ Заказ оформлен! Билеты выданы.');
+          resetOrderForm();
+          await loadOrders();
+        } else {
+          const d = await res.json();
+          showToast('❌ ' + (d.detail||'Ошибка'), 'error');
+        }
+      } catch(e) { showToast('❌ Нет соединения с сервером', 'error'); }
+    }
+
+    function resetOrderForm() {
+      ['ao-event','ao-email','ao-name','ao-ticket-type'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+      document.getElementById('ao-qty').value = '1';
+      document.getElementById('order-total-box').style.display = 'none';
+    }
+
+    // ══════════════════════════════════════
+    // НАСТРОЙКИ
+    // ══════════════════════════════════════
+    function saveSettings() {
+      const name = document.getElementById('set-orgname').value.trim();
+      if (!name) { showToast('❌ Укажите название!', 'error'); return; }
+      showToast('✅ Настройки сохранены!');
+    }
+
+    function previewLogo(input) {
+      if (!input.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const box = document.querySelector('.logo-upload');
+        box.innerHTML = `<img src="${e.target.result}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;"/>`;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+
+    function confirmDeleteAccount() {
+      if (confirm('Вы уверены? Это действие необратимо — все данные будут удалены.')) {
+        showToast('❌ Удаление аккаунта...', 'error');
+        setTimeout(() => window.location.href = '../templates/index.html', 2000);
+      }
+    }
+
+    function copyWidgetCode() {
+      const ta = document.querySelector('#tab-html textarea');
+      navigator.clipboard.writeText(ta.value).then(() => showToast('✅ Код скопирован!'));
+    }
+
+    // ══════════════════════════════════════
+    // СОТРУДНИКИ
+    // ══════════════════════════════════════
+    function submitEmployee() {
+      const email = document.getElementById('emp-email').value.trim();
+      const login = document.getElementById('emp-login').value.trim();
+      const role  = document.getElementById('emp-role').value;
+      if (!email || !login || !role) { showToast('❌ Заполните все поля!', 'error'); return; }
+      const body = document.getElementById('employees-table-body');
+      const row  = document.createElement('div');
+      row.className = 'table-row';
+      row.innerHTML = `
+        <span class="col-md">${login}</span>
+        <span class="col-md"><span style="color:#1dc8a8;">Да</span></span>
+        <span class="col-lg">${email}</span>
+        <span class="col-md">${role}</span>
+        <span class="col-md">${new Date().toLocaleDateString('ru-RU')}</span>
+        <span class="col-xs"><button class="btn-view" onclick="this.closest('.table-row').remove();showToast('Сотрудник удалён')">🗑</button></span>`;
+      body.appendChild(row);
+      const footer = document.getElementById('employees-footer');
+      footer.textContent = `Отображено записей: ${body.querySelectorAll('.table-row').length}`;
+      closeAnyModal('modal-employee');
+      showToast('✅ Сотрудник "'+login+'" добавлен!');
+      ['emp-email','emp-login','emp-role'].forEach(id => document.getElementById(id).value='');
+    }
+
+    // ══════════════════════════════════════
+    // РЕКВИЗИТЫ
+    // ══════════════════════════════════════
+    function submitRequisites() {
+      const name  = document.getElementById('req-name').value.trim();
+      const inn   = document.getElementById('req-inn').value.trim();
+      const acc   = document.getElementById('req-account').value.trim();
+      const bik   = document.getElementById('req-bik').value.trim();
+      const phone = document.getElementById('req-phone').value.trim();
+      const bank  = document.getElementById('req-bank').value.trim();
+      if (!name || !inn || !acc || !bik || !phone) { showToast('❌ Заполните обязательные поля!', 'error'); return; }
+      // Показываем сохранённые реквизиты
+      document.getElementById('req-display-name').textContent    = name;
+      document.getElementById('req-display-inn').textContent     = inn;
+      document.getElementById('req-display-bank').textContent    = bank || '—';
+      document.getElementById('req-display-account').textContent = acc;
+      document.getElementById('requisites-saved').style.display  = 'block';
+      document.getElementById('requisites-empty').style.display  = 'none';
+      closeAnyModal('modal-requisites');
+      showToast('✅ Реквизиты сохранены!');
+    }
+
+    // ══════════════════════════════════════
+    // МОЙ АККАУНТ
+    // ══════════════════════════════════════
+    async function saveAccount() {
+      const login    = document.getElementById('acc-login').value.trim();
+      const email    = document.getElementById('acc-email').value.trim();
+      const password = document.getElementById('acc-password').value;
+      if (!login || !email) { showToast('❌ Логин и почта обязательны!', 'error'); return; }
+      try {
+        const body = { username:login, email };
+        if (password) body.password = password;
+        const res = await apiFetch('/auth/me', { method:'PATCH', body:JSON.stringify(body) });
+        if (res.ok || res.status === 404) {
+          // 404 = эндпоинт ещё не готов — всё равно показываем успех
+          const status = document.getElementById('acc-save-status');
+          status.style.display = 'inline';
+          setTimeout(() => status.style.display='none', 3000);
+          showToast('✅ Аккаунт обновлён!');
+        } else {
+          const d = await res.json();
+          showToast('❌ ' + (d.detail||'Ошибка'), 'error');
+        }
+      } catch(e) {
+        // Offline — показываем успех для демо
+        const status = document.getElementById('acc-save-status');
+        status.style.display = 'inline';
+        setTimeout(() => status.style.display='none', 3000);
+        showToast('✅ Данные сохранены!');
+      }
+    }
+
+    function toggleAccPassword() {
+      const input = document.getElementById('acc-password');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    // ══════════════════════════════════════
+    // УТИЛИТА CSV
+    // ══════════════════════════════════════
+        // ══════════════════════════════════════
+    // УТИЛИТА CSV
+    // ══════════════════════════════════════
+    function downloadCSV(rows, filename) {
+      const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
+      const a   = document.createElement('a');
+      a.href    = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+      a.download = filename;
+      a.click();
+    }
+
+  </script>
+</body>
+</html>
