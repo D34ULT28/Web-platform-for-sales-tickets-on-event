@@ -320,13 +320,13 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#1dc8a8">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
-          <div>Поддержка для продавцов<br/><span>email ....</span></div>
+          <div>Поддержка для продавцов<br/><span>dragunovmisha6@gmail.com</span></div>
         </div>
         <div class="contact-item">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#1dc8a8">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
-          <div>Поддержка для покупателей<br/><span>email ....</span></div>
+          <div>Поддержка для покупателей<br/><span>dragunovmisha6@gmail.com</span></div>
         </div>
         <div class="footer-social">
           <a href="#"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.587-1.496c.598-.19 1.365 1.26 2.179 1.815.615.42 1.082.328 1.082.328l2.172-.03s1.135-.07.597-1.001c-.044-.073-.313-.665-1.612-1.88-1.362-1.271-1.179-1.066.46-3.267.998-1.33 1.397-2.141 1.271-2.489-.12-.332-.854-.244-.854-.244l-2.444.015s-.181-.025-.315.056c-.132.08-.216.267-.216.267s-.387 1.028-.903 1.903c-1.088 1.85-1.524 1.948-1.703 1.834-.414-.267-.31-1.072-.31-1.644 0-1.786.27-2.53-.526-2.72-.265-.064-.46-.106-1.137-.113-.869-.009-1.604.003-2.02.207-.277.135-.49.437-.36.454.16.022.523.098.716.36.248.34.24 1.103.24 1.103s.142 2.103-.332 2.362c-.326.176-.773-.183-1.733-1.826-.491-.85-.862-1.79-.862-1.79s-.071-.174-.201-.267c-.157-.114-.376-.15-.376-.15l-2.322.015s-.348.01-.476.161c-.114.134-.009.412-.009.412s1.818 4.26 3.878 6.409c1.889 1.973 4.034 1.842 4.034 1.842h.972z"/></svg></a>
@@ -344,16 +344,26 @@
 
     // Активная ссылка в сайдбаре при скролле
     const sections = document.querySelectorAll('section[id]');
-    const links = document.querySelectorAll('.sidebar-link');
+        const links = document.querySelectorAll('.sidebar-link');
 
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const activeLink = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
       });
-      links.forEach(l => {
-        l.classList.remove('active');
-        if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+    }, { threshold: 0.3 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Поиск по справке
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      sections.forEach(section => {
+        const text = section.textContent.toLowerCase();
+        section.style.display = (!q || text.includes(q)) ? '' : 'none';
       });
     });
   </script>

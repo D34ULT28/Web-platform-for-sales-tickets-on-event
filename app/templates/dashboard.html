@@ -11,7 +11,7 @@
   <!--БОКОВОЕ МЕНЮ-->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="../static/png/Logo.png" alt="TicketFlow"/>
+      <img src="../static/png/Logo.png" href="../templates/index.html" alt="TicketFlow"/>
     </div>
 
     <div class="sidebar-section">
@@ -62,6 +62,10 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Мой аккаунт
       </a>
+      <a href="#" class="sidebar-link" onclick="showPage('admin-users')" id="link-admin-users" style="display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Все пользователи
+      </a>
       <a href="../templates/login.html" class="sidebar-link logout">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Выход
@@ -71,7 +75,7 @@
     <div class="sidebar-footer">
       <div class="sidebar-support">
         <span>Поддержка</span>
-        <a href="mailto:dragunovmisha6@gmail.com">dragunovmisha6@gmail.com</a>
+        dragunovmisha6@gmail.com
       </div>
       <div class="sidebar-support">
         <span>База знаний</span>
@@ -430,7 +434,7 @@
         <div class="table-row">
           <span class="col-md">organizer <span class="badge-you">это вы</span></span>
           <span class="col-md"><span style="color:#1dc8a8;">Да</span></span>
-          <span class="col-lg"><a href="mailto:dragunovmisha6@gmail.com">dragunovmisha6@gmail.com</a></span>
+          <span class="col-lg">dragunovmisha6@gmail.com</span>
           <span class="col-md">Администраторы</span>
           <span class="col-md">—</span>
           <span class="col-xs"></span>
@@ -488,6 +492,32 @@
         <button class="btn-primary" onclick="saveAccount()">Сохранить изменения</button>
         <span id="acc-save-status" style="font-size:13px;color:#1dc8a8;display:none;">✅ Сохранено!</span>
       </div>
+    </div>
+
+    <!-- ADMIN: Все пользователи -->
+    <div id="page-admin-users" class="page">
+      <div class="page-header-title">
+        Все пользователи
+        <span style="background:#e74c3c;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-left:10px;">ADMIN</span>
+      </div>
+      <div class="page-toolbar">
+        <button class="btn-primary" onclick="openModal('modal-create-user')">+ Создать пользователя</button>
+        <div class="toolbar-spacer"></div>
+        <div class="search-box">
+          <input type="text" id="admin-users-search" placeholder="Поиск..." oninput="filterAdminUsers()"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+      </div>
+      <div class="table-header">
+        <span class="col-sm">ID</span>
+        <span class="col-md">ЛОГИН</span>
+        <span class="col-lg">EMAIL</span>
+        <span class="col-sm">РОЛЬ</span>
+        <span class="col-md">ГОРОД</span>
+        <span class="col-sm">ДЕЙСТВИЯ</span>
+      </div>
+      <div id="admin-users-body"><div class="table-empty">Загрузка...</div></div>
+      <div class="table-footer" id="admin-users-footer">Отображено: 0</div>
     </div>
 
   </div>
@@ -672,6 +702,77 @@
     </div>
   </div>
 
+  <!-- ADMIN: Создать пользователя -->
+  <div id="modal-create-user" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAnyModal('modal-create-user')">×</button>
+      <h3>Создать пользователя</h3>
+      <div class="modal-form-grid" style="grid-template-columns:1fr;">
+        <div class="field-group">
+          <label class="field-label">Логин <span class="required">*</span></label>
+          <input type="text" class="field-input" id="cu-username" placeholder="username"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email <span class="required">*</span></label>
+          <input type="email" class="field-input" id="cu-email" placeholder="user@example.com"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Пароль <span class="required">*</span></label>
+          <input type="password" class="field-input" id="cu-password" placeholder="минимум 6 символов"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Роль <span class="required">*</span></label>
+          <select class="field-input" id="cu-role">
+            <option value="buyer">Покупатель</option>
+            <option value="organizer">Организатор</option>
+            <option value="admin">Администратор</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAnyModal('modal-create-user')">Отмена</button>
+        <button class="btn-primary" onclick="adminCreateUser()">Создать</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Редактировать сотрудника -->
+  <div id="modal-edit-employee" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAnyModal('modal-edit-employee')">×</button>
+      <h3>Редактировать сотрудника</h3>
+      <div class="modal-form-grid" style="grid-template-columns:1fr;">
+        <div class="field-group">
+          <label class="field-label">Логин <span class="required">*</span></label>
+          <input type="text" class="field-input" id="edit-emp-login" placeholder="username"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email <span class="required">*</span></label>
+          <input type="email" class="field-input" id="edit-emp-email" placeholder="email@example.com"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Группа / Роль <span class="required">*</span></label>
+          <select class="field-input" id="edit-emp-role">
+            <option>Администраторы</option>
+            <option>Менеджеры</option>
+            <option>Кассиры</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Активность</label>
+          <select class="field-input" id="edit-emp-active">
+            <option value="yes">Да</option>
+            <option value="no">Нет</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAnyModal('modal-edit-employee')">Отмена</button>
+        <button class="btn-primary" onclick="saveEmployee()">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Приветствие -->
   <div id="welcome-modal" class="modal-overlay" style="display:none;">
     <div class="modal">
@@ -698,18 +799,14 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // ══════════════════════════════════════
+  <script>
     // СОСТОЯНИЕ ПРИЛОЖЕНИЯ
-    // ══════════════════════════════════════
     let appEvents   = [];
     let appOrders   = [];
     let appBuyers   = [];
     let appSchemes  = [{ name:'Входной билет', type:'standard', discount:0, desc:'Системная схема' }];
 
-    // ══════════════════════════════════════
     // НАВИГАЦИЯ
-    // ══════════════════════════════════════
     function showPage(name) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
@@ -718,10 +815,11 @@
       if (event && event.target && event.target.closest('.sidebar-link'))
         event.target.closest('.sidebar-link').classList.add('active');
       // При переходе на страницы — подгружаем данные
-      if (name === 'orders')  loadOrders();
-      if (name === 'buyers')  loadBuyers();
-      if (name === 'stats')   loadStats();
-      if (name === 'add-order') loadEventsForOrder();
+      if (name === 'orders')      loadOrders();
+      if (name === 'buyers')      loadBuyers();
+      if (name === 'stats')       loadStats();
+      if (name === 'add-order')   loadEventsForOrder();
+      if (name === 'admin-users') loadAdminUsers();
     }
 
     function showTab(btn, tabId) {
@@ -731,9 +829,7 @@
       document.getElementById(tabId).classList.add('active');
     }
 
-    // ══════════════════════════════════════
     // МОДАЛКИ
-    // ══════════════════════════════════════
     async function openModal(id) {
       document.getElementById(id).style.display = 'flex';
       if (id === 'modal-event') await loadVenues();
@@ -741,21 +837,9 @@
     function closeAnyModal(id) { document.getElementById(id).style.display = 'none'; }
     function closeModal()      { closeAnyModal('welcome-modal'); }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.modal-overlay').forEach(o => {
-        o.addEventListener('click', e => { if (e.target === o) o.style.display = 'none'; });
-      });
-      loadEvents();
-      // Показываем приветствие если первый вход
-      if (sessionStorage.getItem('reg_username')) {
-        document.getElementById('welcome-modal').style.display = 'flex';
-        sessionStorage.removeItem('reg_username');
-      }
-    });
 
-    // ══════════════════════════════════════
+
     // УТИЛИТЫ
-    // ══════════════════════════════════════
     function showToast(msg, type = 'success') {
       const old = document.querySelector('.toast');
       if (old) old.remove();
@@ -781,9 +865,7 @@
       return fetch('http://127.0.0.1:8000' + url, { ...options, headers });
     }
 
-    // ══════════════════════════════════════
     // МЕРОПРИЯТИЯ
-    // ══════════════════════════════════════
     async function loadEvents() {
       try {
         const res = await apiFetch('/events/');
@@ -925,9 +1007,7 @@
       } catch(e) { showToast('❌ Ошибка', 'error'); }
     }
 
-    // ══════════════════════════════════════
     // ЗАКАЗЫ
-    // ══════════════════════════════════════
     async function loadOrders() {
       try {
         const res = await apiFetch('/orders/');
@@ -1004,9 +1084,7 @@
       downloadCSV(rows, 'orders.csv');
     }
 
-    // ══════════════════════════════════════
     // ПОКУПАТЕЛИ
-    // ══════════════════════════════════════
     async function loadBuyers() {
       try {
         const res = await apiFetch('/users/');
@@ -1051,9 +1129,7 @@
       downloadCSV(rows, 'buyers.csv');
     }
 
-    // ══════════════════════════════════════
     // СТАТИСТИКА
-    // ══════════════════════════════════════
     async function loadStats() {
       try {
         const res = await apiFetch('/events/');
@@ -1108,9 +1184,7 @@
 
     function filterStats() { renderStats(appEvents); }
 
-    // ══════════════════════════════════════
     // СХЕМЫ ПРОДАЖ
-    // ══════════════════════════════════════
     function filterSchemes() {
       const q = document.getElementById('schemes-search').value.toLowerCase();
       renderSchemes(appSchemes.filter(s => s.name.toLowerCase().includes(q)));
@@ -1154,9 +1228,7 @@
       ['sch-name','sch-type','sch-discount','sch-desc'].forEach(id => document.getElementById(id).value='');
     }
 
-    // ══════════════════════════════════════
     // ДОБАВИТЬ ЗАКАЗ (КАССА)
-    // ══════════════════════════════════════
     async function loadEventsForOrder() {
       if (!appEvents.length) await loadEvents();
       const sel = document.getElementById('ao-event');
@@ -1206,9 +1278,7 @@
       document.getElementById('order-total-box').style.display = 'none';
     }
 
-    // ══════════════════════════════════════
     // НАСТРОЙКИ
-    // ══════════════════════════════════════
     function saveSettings() {
       const name = document.getElementById('set-orgname').value.trim();
       if (!name) { showToast('❌ Укажите название!', 'error'); return; }
@@ -1237,9 +1307,7 @@
       navigator.clipboard.writeText(ta.value).then(() => showToast('✅ Код скопирован!'));
     }
 
-    // ══════════════════════════════════════
     // СОТРУДНИКИ
-    // ══════════════════════════════════════
     function submitEmployee() {
       const email = document.getElementById('emp-email').value.trim();
       const login = document.getElementById('emp-login').value.trim();
@@ -1254,7 +1322,10 @@
         <span class="col-lg">${email}</span>
         <span class="col-md">${role}</span>
         <span class="col-md">${new Date().toLocaleDateString('ru-RU')}</span>
-        <span class="col-xs"><button class="btn-view" onclick="this.closest('.table-row').remove();showToast('Сотрудник удалён')">🗑</button></span>`;
+        <span class="col-xs" style="display:flex;gap:6px;">
+          <button class="btn-view" onclick="editEmployee(this)">✏️</button>
+          <button class="btn-view" style="background:#e74c3c;" onclick="removeEmployee(this)">🗑</button>
+        </span>`;
       body.appendChild(row);
       const footer = document.getElementById('employees-footer');
       footer.textContent = `Отображено записей: ${body.querySelectorAll('.table-row').length}`;
@@ -1263,9 +1334,68 @@
       ['emp-email','emp-login','emp-role'].forEach(id => document.getElementById(id).value='');
     }
 
-    // ══════════════════════════════════════
+    // Текущая редактируемая строка сотрудника
+    let _editingEmployeeRow = null;
+
+    function editEmployee(btn) {
+      const row = btn.closest('.table-row');
+      _editingEmployeeRow = row;
+      const spans = row.querySelectorAll('span');
+      // spans: 0=логин, 1=активность, 2=почта, 3=группа, 4=дата, 5=кнопки
+      const login  = spans[0].textContent.trim();
+      const active = spans[1].textContent.trim();
+      const email  = spans[2].textContent.trim();
+      const role   = spans[3].textContent.trim();
+
+      document.getElementById('edit-emp-login').value  = login;
+      document.getElementById('edit-emp-email').value  = email;
+      document.getElementById('edit-emp-active').value = active === 'Да' ? 'yes' : 'no';
+
+      // Выбираем нужную роль
+      const roleSelect = document.getElementById('edit-emp-role');
+      for (let opt of roleSelect.options) {
+        if (opt.value === role) { opt.selected = true; break; }
+      }
+      roleSelect.value = role;
+
+      openModal('modal-edit-employee');
+    }
+
+    function saveEmployee() {
+      const login  = document.getElementById('edit-emp-login').value.trim();
+      const email  = document.getElementById('edit-emp-email').value.trim();
+      const role   = document.getElementById('edit-emp-role').value;
+      const active = document.getElementById('edit-emp-active').value === 'yes';
+
+      if (!login || !email) { showToast('❌ Заполните все поля!', 'error'); return; }
+
+      if (_editingEmployeeRow) {
+        const spans = _editingEmployeeRow.querySelectorAll('span');
+        spans[0].innerHTML = login + (spans[0].querySelector('.badge-you') ? ' <span class="badge-you">это вы</span>' : '');
+        spans[1].innerHTML = active
+          ? '<span style="color:#1dc8a8;">Да</span>'
+          : '<span style="color:#aaa;">Нет</span>';
+        spans[2].textContent = email;
+        spans[3].textContent = role;
+      }
+
+      closeAnyModal('modal-edit-employee');
+      showToast('✅ Данные сотрудника обновлены!');
+      _editingEmployeeRow = null;
+    }
+
+    function removeEmployee(btn) {
+      const row = btn.closest('.table-row');
+      const login = row.querySelector('span').textContent.trim();
+      if (!confirm(`Удалить сотрудника "${login}"?`)) return;
+      row.remove();
+      const body = document.getElementById('employees-table-body');
+      const footer = document.getElementById('employees-footer');
+      footer.textContent = `Отображено записей: ${body.querySelectorAll('.table-row').length}`;
+      showToast('✅ Сотрудник удалён');
+    }
+
     // РЕКВИЗИТЫ
-    // ══════════════════════════════════════
     function submitRequisites() {
       const name  = document.getElementById('req-name').value.trim();
       const inn   = document.getElementById('req-inn').value.trim();
@@ -1285,9 +1415,7 @@
       showToast('✅ Реквизиты сохранены!');
     }
 
-    // ══════════════════════════════════════
     // МОЙ АККАУНТ
-    // ══════════════════════════════════════
     async function saveAccount() {
       const login    = document.getElementById('acc-login').value.trim();
       const email    = document.getElementById('acc-email').value.trim();
@@ -1321,12 +1449,6 @@
       input.type = input.type === 'password' ? 'text' : 'password';
     }
 
-    // ══════════════════════════════════════
-    // УТИЛИТА CSV
-    // ══════════════════════════════════════
-        // ══════════════════════════════════════
-    // УТИЛИТА CSV
-    // ══════════════════════════════════════
     function downloadCSV(rows, filename) {
       const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
       const a   = document.createElement('a');
@@ -1334,6 +1456,133 @@
       a.download = filename;
       a.click();
     }
+
+    // ADMIN — УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ
+    let allAdminUsers = [];
+
+    function checkRole() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const role = payload.role;
+        if (role === 'admin') {
+          const link = document.getElementById('link-admin-users');
+          if (link) link.style.display = 'flex';
+          showAdminBadge();
+        }
+      } catch(e) {}
+    }
+
+    function showAdminBadge() {
+      const footer = document.querySelector('.sidebar-footer');
+      if (footer && !document.getElementById('admin-badge')) {
+        const badge = document.createElement('div');
+        badge.id = 'admin-badge';
+        badge.style.cssText = 'background:#e74c3c;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:6px;text-align:center;margin-bottom:8px;';
+        badge.textContent = '\u{1F451} АДМИНИСТРАТОР';
+        footer.prepend(badge);
+      }
+    }
+
+    async function loadAdminUsers() {
+      try {
+        const res = await apiFetch('/auth/admin/users');
+        if (res.ok) {
+          allAdminUsers = await res.json();
+          renderAdminUsers(allAdminUsers);
+        } else {
+          showToast('\u274C Нет доступа', 'error');
+        }
+      } catch(e) { showToast('\u274C Ошибка загрузки', 'error'); }
+    }
+
+    function renderAdminUsers(users) {
+      const body   = document.getElementById('admin-users-body');
+      const footer = document.getElementById('admin-users-footer');
+      if (!body) return;
+      const roleColors = { admin:'#e74c3c', organizer:'#1dc8a8', buyer:'#5b6f8a' };
+      const roleNames  = { admin:'Админ', organizer:'Организатор', buyer:'Покупатель' };
+      if (!users.length) { body.innerHTML = '<div class="table-empty">Пользователей нет.</div>'; return; }
+      body.innerHTML = users.map(u => `
+        <div class="table-row">
+          <span class="col-sm">#${u.id}</span>
+          <span class="col-md"><strong>${u.username}</strong></span>
+          <span class="col-lg">${u.email}</span>
+          <span class="col-sm"><span style="background:${roleColors[u.role]||'#888'};color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;">${roleNames[u.role]||u.role}</span></span>
+          <span class="col-md">${u.city||'\u2014'}</span>
+          <span class="col-sm" style="display:flex;gap:6px;">
+            <button class="btn-view" onclick="changeRole(${u.id},'${u.username}','${u.role}')">\u270F\uFE0F</button>
+            ${u.role !== 'admin' ? `<button class="btn-view" style="background:#e74c3c;" onclick="deleteUser(${u.id},'${u.username}')">\uD83D\uDDD1</button>` : ''}
+          </span>
+        </div>`).join('');
+      if (footer) footer.textContent = `Отображено: ${users.length}`;
+    }
+
+    function filterAdminUsers() {
+      const q = document.getElementById('admin-users-search').value.toLowerCase();
+      renderAdminUsers(allAdminUsers.filter(u =>
+        u.username.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+      ));
+    }
+
+    async function changeRole(id, username, currentRole) {
+      const newRole = prompt(`Изменить роль "${username}"\nТекущая: ${currentRole}\n\nВведите: buyer / organizer / admin`, currentRole);
+      if (!newRole || newRole === currentRole) return;
+      if (!['buyer','organizer','admin'].includes(newRole)) { showToast('\u274C Недопустимая роль', 'error'); return; }
+      try {
+        const res = await apiFetch(`/auth/admin/users/${id}/role?role=${newRole}`, { method:'PATCH' });
+        if (res.ok) { showToast(`\u2705 Роль ${username} изменена!`); await loadAdminUsers(); }
+        else { const d = await res.json(); showToast('\u274C ' + (d.detail||'Ошибка'), 'error'); }
+      } catch(e) { showToast('\u274C Ошибка', 'error'); }
+    }
+
+    async function deleteUser(id, username) {
+      if (!confirm(`Удалить пользователя "${username}"?`)) return;
+      try {
+        const res = await apiFetch(`/auth/admin/users/${id}`, { method:'DELETE' });
+        if (res.ok) { showToast(`\u2705 ${username} удалён!`); await loadAdminUsers(); }
+        else { const d = await res.json(); showToast('\u274C ' + (d.detail||'Ошибка'), 'error'); }
+      } catch(e) { showToast('\u274C Ошибка', 'error'); }
+    }
+
+    async function adminCreateUser() {
+      const username = document.getElementById('cu-username').value.trim();
+      const email    = document.getElementById('cu-email').value.trim();
+      const password = document.getElementById('cu-password').value.trim();
+      const role     = document.getElementById('cu-role').value;
+      if (!username || !email || !password) { showToast('\u274C Заполните все поля!', 'error'); return; }
+      try {
+        const regRole = role === 'admin' ? 'organizer' : role;
+        const res = await apiFetch('/auth/register', {
+          method:'POST', body: JSON.stringify({ username, email, password, role: regRole, city:'' })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          if (role === 'admin') await apiFetch(`/auth/admin/users/${data.user_id}/role?role=admin`, { method:'PATCH' });
+          closeAnyModal('modal-create-user');
+          showToast(`\u2705 Пользователь ${username} создан!`);
+          await loadAdminUsers();
+          ['cu-username','cu-email','cu-password'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+        } else { showToast('\u274C ' + (data.detail||'Ошибка'), 'error'); }
+      } catch(e) { showToast('\u274C Ошибка соединения', 'error'); }
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      checkRole();
+      // Показываем приветствие если первый вход
+      if (sessionStorage.getItem('reg_username')) {
+        document.getElementById('welcome-modal').style.display = 'flex';
+        sessionStorage.removeItem('reg_username');
+      }
+      // Загрузка мероприятий
+      if (typeof loadEvents === 'function') loadEvents();
+      // Закрытие модалок по фону
+      document.querySelectorAll('.modal-overlay').forEach(o => {
+        o.addEventListener('click', e => { if (e.target === o) o.style.display = 'none'; });
+      });
+    });
 
   </script>
 </body>

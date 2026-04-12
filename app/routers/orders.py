@@ -14,19 +14,16 @@ router = APIRouter(prefix="/orders", tags=["orders"])
 class SeatItem(BaseModel):
     row:  int
     seat: int
-    type: str
+    type: str  # "standard" или "vip"
 
 class OrderCreate(BaseModel):
     event_id:     int
     user_email:   str
-    user_name:    str
+    user_name:    str        # ФИО покупателя
     user_phone:   str
     seats:        List[SeatItem]
     total_price:  float
     order_number: Optional[str] = None
-    is_paid:      Optional[bool] = True  
-    ticket_type:  Optional[str] = None     
-    quantity:     Optional[int] = None 
 
 # ── Генерация номера билета ──
 def gen_ticket_number():
@@ -180,3 +177,70 @@ def get_event_seats(event_id: int, db: Session = Depends(get_db)):
                 "status":      "booked"
             })
     return result
+
+
+# ── GET /orders/find-by-ticket — поиск заказа по номеру билета ──
+@router.get("/find-by-ticket")
+def find_by_ticket(ticket_number: str, email: str, db: Session = Depends(get_db)):
+    ticket = db.query(models.Ticket).filter(
+        models.Ticket.ticket_number == ticket_number
+    ).first()
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Билет не найден")
+
+    order = db.query(models.Order).filter(models.Order.id == ticket.order_id).first()
+    user  = db.query(models.User).filter(models.User.id == order.buyer_id).first()
+
+    if not user or user.email.lower() != email.lower():
+        raise HTTPException(status_code=403, detail="Email не совпадает с данными заказа")
+    if order.status == "cancelled":
+        raise HTTPException(status_code=400, detail="Этот заказ уже отменён")
+
+    event = db.query(models.Event).filter(models.Event.id == order.event_id).first()
+    seat  = db.query(models.Seat).filter(models.Seat.id == ticket.seat_id).first()
+    venue = db.query(models.Venue).filter(models.Venue.id == event.venue_id).first() if event else None
+
+    return {
+        "order_id":      order.id,
+        "ticket_number": ticket.ticket_number,
+        "event_title":   event.title if event else "—",
+        "event_date":    event.event_date.isoformat() if event else None,
+        "venue":         (venue.city + ", " + venue.name) if venue else "—",
+        "seat":          f"Ряд {seat.row_number}, место {seat.seat_number}" if seat else "—",
+        "seat_type":     seat.zone if seat else "Стандарт",
+        "total_price":   float(order.total_price),
+        "buyer_email":   user.email,
+        "status":        order.status
+    }
+
+
+# ── POST /orders/cancel-by-ticket — отмена заказа по билету ──
+class CancelByTicketRequest(BaseModel):
+    ticket_number: str
+    email:         str
+
+@router.post("/cancel-by-ticket")
+def cancel_by_ticket(data: CancelByTicketRequest, db: Session = Depends(get_db)):
+    ticket = db.query(models.Ticket).filter(
+        models.Ticket.ticket_number == data.ticket_number
+    ).first()
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Билет не найден")
+
+    order = db.query(models.Order).filter(models.Order.id == ticket.order_id).first()
+    user  = db.query(models.User).filter(models.User.id == order.buyer_id).first()
+
+    if not user or user.email.lower() != data.email.lower():
+        raise HTTPException(status_code=403, detail="Email не совпадает с данными заказа")
+    if order.status == "cancelled":
+        raise HTTPException(status_code=400, detail="Заказ уже отменён")
+
+    order.status = "cancelled"
+
+    # Освобождаем место
+    db.query(models.OrderSeat).filter(
+        models.OrderSeat.order_id == order.id
+    ).update({"is_reserved": False})
+
+    db.commit()
+    return {"message": "Возврат оформлен", "order_id": order.id, "ticket_number": data.ticket_number}

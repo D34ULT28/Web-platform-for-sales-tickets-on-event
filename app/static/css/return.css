@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Manrope:wght@400;500;600&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --accent:  #1dc8a8;
+  --accent2: #17a88d;
+  --dark:    #0e1420;
+  --dark2:   #151d2e;
+  --text:    #222;
+  --muted:   #888;
+  --border:  #e8ecf0;
+  --bg:      #f0f2f5;
+  --red:     #e74c3c;
+}
+
+body { font-family: 'Manrope', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── ШАПКА ── */
+.header { background: var(--dark); position: sticky; top:0; z-index:50; }
+.header-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  height: 60px; display: flex; align-items: center; gap: 32px;
+}
+.logo-box img { width: 100px; height: auto; object-fit: contain; }
+.header-nav { display:flex; gap:24px; flex:1; }
+.nav-link { color: rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
+.nav-link:hover { color:#fff; }
+.btn-header-login {
+  color: rgba(255,255,255,0.7); text-decoration:none; font-size:13px;
+  border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px;
+  border-radius:6px; transition:all 0.2s;
+}
+.btn-header-login:hover { color:#fff; border-color:var(--accent); }
+
+/* ── MAIN ── */
+.main { flex: 1; padding: 48px 24px 60px; }
+.container { max-width: 560px; margin: 0 auto; }
+
+/* ── ШАГИ ── */
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── ЗАГОЛОВОК ── */
+.step-header { text-align: center; margin-bottom: 32px; }
+.step-icon { font-size: 52px; margin-bottom: 12px; }
+.step-header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 28px; font-weight: 900; color: #111; margin-bottom: 8px;
+}
+.step-header p { font-size: 15px; color: var(--muted); }
+
+/* ── ФОРМА ── */
+.form-card {
+  background: #fff; border-radius: 14px; padding: 28px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 13px; font-weight: 600; color: #444; }
+.req { color: var(--red); }
+.field-input {
+  height: 44px; border: 1px solid var(--border); border-radius: 8px;
+  padding: 0 14px; font-size: 14px; font-family: 'Manrope', sans-serif;
+  outline: none; color: #333; background: #fff; transition: border-color 0.2s;
+}
+.field-input:focus { border-color: var(--accent); }
+.field-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── КНОПКИ ── */
+.btn-primary {
+  width: 100%; padding: 13px; background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 700;
+  font-family: 'Manrope', sans-serif; cursor: pointer; transition: background 0.2s;
+  text-decoration: none; display: inline-block; text-align: center;
+}
+.btn-primary:hover { background: var(--accent2); }
+.btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn-secondary {
+  padding: 12px 24px; background: #f0f2f5; color: #555;
+  border: 1px solid var(--border); border-radius: 8px; font-size: 14px;
+  font-weight: 600; font-family: 'Manrope', sans-serif; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: #e4e8ef; color: #333; }
+
+.btn-danger {
+  padding: 12px 28px; background: var(--red); color: #fff;
+  border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
+  font-family: 'Manrope', sans-serif; cursor: pointer; transition: background 0.2s;
+}
+.btn-danger:hover { background: #c0392b; }
+.btn-danger:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn-row { display: flex; gap: 12px; margin-top: 20px; }
+
+/* ── ОШИБКА ── */
+.error-msg {
+  color: var(--red); font-size: 13px; font-weight: 600;
+  padding: 10px 14px; background: rgba(231,76,60,0.08);
+  border-radius: 6px; border: 1px solid rgba(231,76,60,0.2);
+}
+
+/* ── УСЛОВИЯ ВОЗВРАТА ── */
+.info-block {
+  margin-top: 24px; background: #fff; border-radius: 12px;
+  padding: 20px 24px; border: 1px solid var(--border);
+}
+.info-block h4 { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 12px; }
+.info-block ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.info-block li {
+  font-size: 13px; color: #555; padding-left: 16px; position: relative; line-height: 1.5;
+}
+.info-block li::before {
+  content: '•'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+
+/* ── КАРТОЧКА ЗАКАЗА ── */
+.order-card {
+  background: #fff; border-radius: 14px; padding: 24px;
+  border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; gap: 0;
+}
+.order-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 0; border-bottom: 1px solid #f0f2f5; font-size: 14px;
+}
+.order-row:last-child { border-bottom: none; }
+.order-label { color: var(--muted); flex-shrink: 0; margin-right: 12px; }
+.order-value { text-align: right; color: #222; }
+.ticket-num {
+  font-family: 'Montserrat', sans-serif; color: var(--accent);
+  font-size: 15px; letter-spacing: 0.5px;
+}
+.seat-type {
+  background: rgba(29,200,168,0.1); color: var(--accent);
+  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 8px; margin-left: 6px;
+}
+.total-row { margin-top: 4px; padding-top: 14px !important; border-top: 2px solid var(--border) !important; border-bottom: none !important; }
+.refund-amount { font-size: 20px; color: var(--accent); font-family: 'Montserrat', sans-serif; }
+
+/* ── ПРЕДУПРЕЖДЕНИЕ ── */
+.warning-box {
+  margin-top: 16px; background: #fffbeb; border: 1px solid #f6c548;
+  border-radius: 10px; padding: 14px 18px;
+  display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: #555;
+}
+.warning-box span { font-size: 20px; flex-shrink: 0; }
+.warning-box strong { display: block; color: #333; margin-bottom: 4px; }
+
+/* ── УСПЕХ ── */
+.success-card {
+  background: #fff; border-radius: 14px; padding: 48px 32px;
+  border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.success-icon { font-size: 64px; margin-bottom: 16px; }
+.success-card h2 {
+  font-family: 'Montserrat', sans-serif; font-size: 26px;
+  font-weight: 900; color: #111; margin-bottom: 10px;
+}
+.success-card p { font-size: 14px; color: #555; line-height: 1.6; }
+.success-sub { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+/* ── ФУТЕР ── */
+.footer { background: var(--dark); padding: 24px; margin-top: auto; }
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.footer-logo img { width: 90px; opacity: 0.8; }
+.footer-links { display: flex; gap: 20px; flex: 1; }
+.footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-copy { color: rgba(255,255,255,0.3); font-size: 12px; }

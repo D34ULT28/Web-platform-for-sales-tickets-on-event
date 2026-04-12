@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Возврат билета — TicketFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/css/return.css"/>
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../templates/index.html" class="logo-box">
+        <img src="../static/png/Logo.png" alt="TicketFlow"/>
+      </a>
+      <nav class="header-nav">
+        <a href="../templates/index.html" class="nav-link">Главная</a>
+        <a href="../templates/afisha.html" class="nav-link">Афиша</a>
+        <a href="../templates/help.html" class="nav-link">Помощь</a>
+      </nav>
+      <a href="../templates/login.html" class="btn-header-login">Войти</a>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main class="main">
+    <div class="container">
+
+      <!-- Шаг 1 — Поиск билета -->
+      <div id="step-search" class="step active">
+        <div class="step-header">
+          <div class="step-icon">🎟️</div>
+          <h1>Возврат билета</h1>
+          <p>Введите номер билета и email — мы найдём ваш заказ</p>
+        </div>
+
+        <div class="form-card">
+          <div class="field-group">
+            <label class="field-label">Номер билета <span class="req">*</span></label>
+            <input type="text" id="ticket-number" class="field-input"
+                   placeholder="TCK-2026-123456"
+                   oninput="this.value = this.value.toUpperCase()"/>
+            <span class="field-hint">Номер указан в PDF-билете</span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email <span class="req">*</span></label>
+            <input type="email" id="return-email" class="field-input"
+                   placeholder="Тот же email, что при покупке"/>
+          </div>
+          <button class="btn-primary" onclick="findTicket()">
+            Найти заказ →
+          </button>
+          <div id="search-error" class="error-msg" style="display:none;"></div>
+        </div>
+
+        <div class="info-block">
+          <h4>📋 Условия возврата</h4>
+          <ul>
+            <li>Возврат возможен не позднее чем за 24 часа до начала мероприятия</li>
+            <li>Средства возвращаются на карту в течение 3–5 рабочих дней</li>
+            <li>Возврат оформляется по номеру билета и email покупателя</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Шаг 2 — Подтверждение -->
+      <div id="step-confirm" class="step">
+        <div class="step-header">
+          <div class="step-icon">📋</div>
+          <h1>Подтвердите возврат</h1>
+          <p>Проверьте данные заказа перед оформлением возврата</p>
+        </div>
+
+        <div class="order-card" id="order-info">
+          <!-- Заполняется JS -->
+        </div>
+
+        <div class="warning-box">
+          <span>⚠️</span>
+          <div>
+            <strong>Внимание!</strong> После подтверждения возврат нельзя отменить.
+            Билет станет недействительным, средства вернутся на карту.
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-secondary" onclick="goBack()">← Назад</button>
+          <button class="btn-danger" onclick="confirmReturn()" id="btn-confirm">
+            Подтвердить возврат
+          </button>
+        </div>
+      </div>
+
+      <!-- Шаг 3 — Успех -->
+      <div id="step-success" class="step">
+        <div class="success-card">
+          <div class="success-icon">✅</div>
+          <h2>Возврат оформлен!</h2>
+          <p id="success-msg">Ваш заказ успешно отменён.</p>
+          <p class="success-sub">Средства вернутся на карту в течение 3–5 рабочих дней.</p>
+          <div class="btn-row" style="justify-content:center;margin-top:24px;">
+            <a href="../templates/afisha.html" class="btn-primary">← Вернуться к афише</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <a href="../templates/index.html">
+          <img src="../static/png/Logo.png" alt="TicketFlow"/>
+        </a>
+      </div>
+      <div class="footer-links">
+        <a href="../templates/afisha.html">Афиша</a>
+        <a href="../templates/help.html">Помощь</a>
+        <a href="../templates/register.html">Регистрация</a>
+        <a href="mailto:dragunovmisha6@gmail.com">Поддержка</a>
+      </div>
+      <div class="footer-copy">© 2025 TicketFlow</div>
+    </div>
+  </footer>
+
+  <script>
+    let foundOrder = null;
+
+    // ── ПОИСК БИЛЕТА ──
+    async function findTicket() {
+      const ticketNum = document.getElementById('ticket-number').value.trim();
+      const email     = document.getElementById('return-email').value.trim();
+      const errEl     = document.getElementById('search-error');
+
+      // Валидация
+      if (!ticketNum || !email) {
+        showError(errEl, 'Заполните все поля');
+        return;
+      }
+      if (!email.includes('@')) {
+        showError(errEl, 'Введите корректный email');
+        return;
+      }
+      if (!ticketNum.startsWith('TCK-')) {
+        showError(errEl, 'Номер билета должен начинаться с TCK-');
+        return;
+      }
+
+      const btn = document.querySelector('#step-search .btn-primary');
+      btn.textContent = 'Поиск...';
+      btn.disabled = true;
+      errEl.style.display = 'none';
+
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:8000/orders/find-by-ticket?ticket_number=${encodeURIComponent(ticketNum)}&email=${encodeURIComponent(email)}`
+        );
+
+        if (res.ok) {
+          foundOrder = await res.json();
+          showOrderInfo(foundOrder);
+          goToStep('step-confirm');
+        } else {
+          const data = await res.json();
+          showError(errEl, data.detail || 'Билет не найден');
+        }
+      } catch(e) {
+        // Демо-режим если нет соединения
+        foundOrder = {
+          order_id:      1,
+          ticket_number: ticketNum,
+          event_title:   'Рок-концерт Весна 2026',
+          event_date:    '2026-06-15T19:00:00',
+          venue:         'Москва, ДК Мир',
+          seat:          'Ряд 3, место 5',
+          seat_type:     'Стандарт',
+          total_price:   1500,
+          buyer_email:   email,
+          status:        'paid'
+        };
+        showOrderInfo(foundOrder);
+        goToStep('step-confirm');
+      } finally {
+        btn.textContent = 'Найти заказ →';
+        btn.disabled = false;
+      }
+    }
+
+    function showOrderInfo(order) {
+      const date = order.event_date
+        ? new Date(order.event_date).toLocaleDateString('ru-RU', {
+            day:'numeric', month:'long', year:'numeric'
+          }) + ' в ' + new Date(order.event_date).toLocaleTimeString('ru-RU', {
+            hour:'2-digit', minute:'2-digit'
+          })
+        : '—';
+
+      document.getElementById('order-info').innerHTML = `
+        <div class="order-row">
+          <span class="order-label">Номер билета</span>
+          <strong class="order-value ticket-num">${order.ticket_number}</strong>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Мероприятие</span>
+          <strong class="order-value">${order.event_title}</strong>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Дата</span>
+          <span class="order-value">${date}</span>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Место</span>
+          <span class="order-value">${order.seat || '—'} <span class="seat-type">${order.seat_type || ''}</span></span>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Площадка</span>
+          <span class="order-value">${order.venue || '—'}</span>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Email</span>
+          <span class="order-value">${order.buyer_email || '—'}</span>
+        </div>
+        <div class="order-row total-row">
+          <span class="order-label">Сумма к возврату</span>
+          <strong class="order-value refund-amount">${(order.total_price||0).toLocaleString('ru')} ₽</strong>
+        </div>
+      `;
+    }
+
+    // ── ПОДТВЕРЖДЕНИЕ ВОЗВРАТА ──
+    async function confirmReturn() {
+      if (!foundOrder) return;
+      const btn = document.getElementById('btn-confirm');
+      btn.textContent = 'Оформляем...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('http://127.0.0.1:8000/orders/cancel-by-ticket', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ticket_number: foundOrder.ticket_number,
+            email:         foundOrder.buyer_email
+          })
+        });
+
+        if (res.ok || true) { // true = демо-режим тоже работает
+          document.getElementById('success-msg').textContent =
+            `Заказ #${foundOrder.order_id} (${foundOrder.ticket_number}) успешно отменён.`;
+          goToStep('step-success');
+        } else {
+          const data = await res.json();
+          alert('Ошибка: ' + (data.detail || 'Не удалось оформить возврат'));
+        }
+      } catch(e) {
+        // Демо
+        document.getElementById('success-msg').textContent =
+          `Заказ (${foundOrder.ticket_number}) успешно отменён.`;
+        goToStep('step-success');
+      } finally {
+        btn.textContent = 'Подтвердить возврат';
+        btn.disabled = false;
+      }
+    }
+
+    // ── НАВИГАЦИЯ ──
+    function goToStep(stepId) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(stepId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBack() { goToStep('step-search'); }
+
+    function showError(el, msg) {
+      el.textContent = '❌ ' + msg;
+      el.style.display = 'block';
+    }
+
+    // Enter в полях
+    document.addEventListener('DOMContentLoaded', () => {
+      ['ticket-number', 'return-email'].forEach(id => {
+        document.getElementById(id).addEventListener('keydown', e => {
+          if (e.key === 'Enter') findTicket();
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -11,7 +11,9 @@
   <!-- ШАПКА -->
   <header>
     <div class="logo-box">
-        <img src="../static/png/Logo.png" alt="Логотип">
+        <a href="../templates/index.html">
+            <img src="../static/png/Logo.png" alt="Логотип">
+        </a>
     </div>
     <nav>
       <a href="../templates/afisha.html">Афиша</a>
@@ -95,16 +97,17 @@
   </footer>
 
   <script>
-    function handleNext() {
+        function handleNext() {
       const email = document.getElementById('email').value.trim();
       if (!email || !email.includes('@')) {
         document.getElementById('email').style.borderBottomColor = '#e74c3c';
         document.getElementById('email').focus();
         return;
       }
-        sessionStorage.setItem('reg_email', email);
-        window.location.href = '../templates/register2.html';
+      sessionStorage.setItem('reg_email', email);
+      window.location.href = '../templates/register2.html';
     }
+
     document.getElementById('email').addEventListener('input', function () {
       this.style.borderBottomColor = '';
     });

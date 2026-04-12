@@ -14,7 +14,7 @@
   <header class="header">
     <div class="header-inner">
       <div class="logo-box">
-        <img src="../static/png/Logo.png" alt="TicketFlow"/>
+        <img src="../static/png/Logo.png" href alt="TicketFlow"/>
       </div>
       <nav class="header-nav">
         <a href="../templates/index.html" class="nav-link">Главная</a>
@@ -320,8 +320,7 @@
       filterEvents();
     }
 
-    // ── СТАРТ ──
-    // Проверяем параметр cat из URL (переход с главной по категории)
+        // ── СТАРТ ──
     const urlParams = new URLSearchParams(window.location.search);
     const catParam = urlParams.get('cat');
     if (catParam) {

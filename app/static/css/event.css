@@ -21,7 +21,8 @@ body { font-family: 'Manrope', sans-serif; background: var(--bg); color: var(--t
   max-width: 1280px; margin: 0 auto; padding: 0 24px;
   height: 60px; display: flex; align-items: center; gap: 32px;
 }
-.logo-box img { width: 100px; height: auto; object-fit: contain; }
+.logo-box { display: inline-flex; align-items: center; line-height: 0; }
+.logo-box img { width: 100px; height: auto; object-fit: contain; display: block; }
 .header-nav { display:flex; gap:24px; flex:1; }
 .nav-link { color: rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
 .nav-link:hover { color: #fff; }
