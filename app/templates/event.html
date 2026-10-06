@@ -6,50 +6,46 @@
   <title>Мероприятие — TicketFlow</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../static/css/event.css"/>
+  <link rel="stylesheet" href="/static/css/event.css"/>
 </head>
 <body>
 
-  <!-- ШАПКА -->
+  <div id="expiry-banner" class="expiry-banner">
+    Время бронирования истекло. Выберите места заново.
+    <a href="#" onclick="dismissExpiry(); return false;">Закрыть</a>
+  </div>
+
   <header class="header">
     <div class="header-inner">
-      <a href="../templates/index.html" class="logo-box">
-        <img src="../static/png/Logo.png" alt="TicketFlow"/>
+      <a href="/" class="logo-box">
+        <img src="/static/png/Logo.png" alt="TicketFlow"/>
       </a>
       <nav class="header-nav">
-        <a href="../templates/index.html" class="nav-link">Главная</a>
-        <a href="../templates/afisha.html" class="nav-link">Афиша</a>
-        <a href="../templates/help.html" class="nav-link">Помощь</a>
+        <a href="/" class="nav-link">Главная</a>
+        <a href="/login" class="nav-link">Войти</a>
       </nav>
-      <a href="../templates/login.html" class="btn-header-login">Войти</a>
+      <a href="/login" class="btn-header-login">Войти</a>
     </div>
   </header>
 
-  <!-- ЗАГРУЗКА -->
   <div id="loading-state" class="loading-state">
     <div class="spinner"></div>
     <p>Загрузка мероприятия...</p>
   </div>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main id="main-content" style="display:none;">
-
-    <!-- ГЕРОЙ МЕРОПРИЯТИЯ -->
     <section class="event-hero">
       <div class="event-hero-inner">
         <div class="event-badge" id="ev-category-badge">Концерт</div>
         <h1 id="ev-title">Название мероприятия</h1>
         <div class="event-meta">
           <div class="event-meta-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             <span id="ev-date">—</span>
           </div>
           <div class="event-meta-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <span id="ev-location">—</span>
           </div>
           <div class="event-meta-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             <span id="ev-price-info">от — ₽</span>
           </div>
         </div>
@@ -57,31 +53,24 @@
       </div>
     </section>
 
-    <!-- СХЕМА ЗАЛА + КОРЗИНА -->
     <section class="hall-section">
       <div class="hall-container">
-
-        <!-- СХЕМА ЗАЛА -->
         <div class="hall-wrap">
           <div class="stage-label">
-            <div class="stage">🎤 СЦЕНА</div>
+            <div class="stage">СЦЕНА</div>
           </div>
 
           <div class="legend">
             <div class="legend-item"><div class="seat-demo free"></div> Свободно</div>
             <div class="legend-item"><div class="seat-demo vip"></div> VIP</div>
             <div class="legend-item"><div class="seat-demo selected"></div> Выбрано</div>
-            <div class="legend-item"><div class="seat-demo taken"></div> Занято</div>
+            <div class="legend-item"><div class="seat-demo held"></div> Забронировано</div>
+            <div class="legend-item"><div class="seat-demo taken"></div> Продано</div>
           </div>
 
-          <div class="hall-grid" id="hall-grid">
-            <!-- Генерируется JS -->
-          </div>
-
-          <div class="row-numbers-hint">← Ряды 1-2 VIP | Ряды 3-5 Стандарт →</div>
+          <div class="hall-grid" id="hall-grid"></div>
         </div>
 
-        <!-- БОКОВАЯ ПАНЕЛЬ -->
         <div class="hall-sidebar">
           <div class="sidebar-card">
             <h3>Выбранные места</h3>
@@ -103,38 +92,36 @@
               <strong id="price-std-display">— ₽</strong>
             </div>
             <div class="price-row vip-row">
-              <span>VIP (ряды 1-2)</span>
+              <span>VIP</span>
               <strong id="price-vip-display">— ₽</strong>
             </div>
           </div>
         </div>
-
       </div>
     </section>
-
   </main>
 
-  <!-- МОДАЛКА ОПЛАТЫ -->
   <div id="modal-checkout" class="modal-overlay" style="display:none;">
     <div class="modal-checkout">
       <button class="modal-close-btn" onclick="closeCheckout()">×</button>
       <div class="checkout-left">
         <h2>Оформление заказа</h2>
         <div class="checkout-summary" id="checkout-summary"></div>
+        <div id="hold-timer" class="hold-timer">Бронь: —</div>
 
         <div class="checkout-form">
           <h3>Ваши данные</h3>
           <div class="field-group">
             <label>ФИО <span class="req">*</span></label>
-            <input type="text" id="ch-fio" placeholder="Иванов Иван Иванович" class="ch-input" oninput="this.style.borderColor=''"/>
+            <input type="text" id="ch-fio" placeholder="Иванов Иван Иванович" class="ch-input"/>
           </div>
           <div class="field-group">
             <label>Email <span class="req">*</span></label>
-            <input type="email" id="ch-email" placeholder="ivan@example.com" class="ch-input" oninput="this.style.borderColor=''"/>
+            <input type="email" id="ch-email" placeholder="ivan@example.com" class="ch-input"/>
           </div>
           <div class="field-group">
             <label>Телефон <span class="req">*</span></label>
-            <input type="tel" id="ch-phone" placeholder="+7 (999) 000-00-00" class="ch-input" oninput="formatPhone(this);this.style.borderColor=''"/>
+            <input type="tel" id="ch-phone" placeholder="+7 (999) 000-00-00" class="ch-input" oninput="formatPhone(this)"/>
           </div>
         </div>
       </div>
@@ -149,134 +136,110 @@
           </div>
         </div>
         <button class="btn-pay" id="btn-pay" onclick="submitPayment()">
-          💳 Оплатить
+          Оплатить
         </button>
-        <p class="pay-hint">Нажимая «Оплатить», вы соглашаетесь с условиями использования</p>
+        <p class="pay-hint">Оплата — учебная заглушка (без реального списания)</p>
       </div>
     </div>
   </div>
 
-  <!-- МОДАЛКА УСПЕХА -->
   <div id="modal-success" class="modal-overlay" style="display:none;">
     <div class="modal-success">
-      <div class="success-icon">🎉</div>
+      <div class="success-icon">✓</div>
       <h2>Заказ оплачен!</h2>
       <p id="success-order-num"></p>
-      <p>Ваш PDF-билет готов к скачиванию</p>
+      <div id="success-qr-list" class="success-qr-list"></div>
       <button class="btn-download" id="btn-download-pdf" onclick="downloadPDF()">
-        ⬇ Скачать билет (PDF)
+        Скачать билет (PDF)
       </button>
-      <button class="btn-back" onclick="window.location.href='../templates/afisha.html'">
-        ← Вернуться к афише
+      <button class="btn-back" onclick="window.location.href='/'">
+        ← На главную
       </button>
     </div>
   </div>
 
   <script>
-    // ══════════════════════════════════════
-    // ДАННЫЕ
-    // ══════════════════════════════════════
-    let eventData   = null;
-    let seats       = [];       // { row, num, type, status }
-    let selectedSeats = [];     // выбранные места
-    let orderData   = null;     // данные заказа после оплаты
+    const API = '';
 
-    const ROWS      = 5;
-    const COLS      = 10;
-    const VIP_ROWS  = [1, 2];
+    let eventData = null;
+    let hallSeats = [];      // from API: {id, row, num, type, status, price}
+    let selectedSeats = [];  // {key, id, row, num, type, price}
+    let orderData = null;
+    let holdToken = null;
+    let holdExpiresAt = null;
+    let holdTimerId = null;
+    let holdExpired = false;
 
-    // ══════════════════════════════════════
-    // ИНИЦИАЛИЗАЦИЯ
-    // ══════════════════════════════════════
     async function init() {
-      const params  = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.search);
       const eventId = params.get('id');
-
       if (!eventId) {
-        window.location.href = '../templates/afisha.html';
+        window.location.href = '/';
         return;
       }
 
-      try {
-        const res = await fetch('http://127.0.0.1:8000/events/' + eventId);
-        if (res.ok) {
-          eventData = await res.json();
-        }
-      } catch(e) {
-        // Демо если нет соединения
-        eventData = {
-          id: eventId,
-          title: 'Рок-концерт Весна 2026',
-          category: 'Концерт',
-          event_date: '2026-06-15T19:00:00',
-          city: 'Москва',
-          venue_name: 'ДК Мир',
-          price_standard: 1500,
-          price_vip: 3000,
-          description: 'Грандиозный рок-концерт с участием лучших групп страны. Живой звук, мощная сцена, незабываемая атмосфера!'
-        };
+      const res = await fetch(API + '/events/' + eventId);
+      if (!res.ok) {
+        showNotice('Мероприятие не найдено');
+        return;
       }
-
-      // Загружаем занятые места
-      await loadTakenSeats(eventId);
-
+      eventData = await res.json();
+      await loadSeats(eventId);
       renderEventInfo();
       renderHall();
-
       document.getElementById('loading-state').style.display = 'none';
-      document.getElementById('main-content').style.display  = 'block';
+      document.getElementById('main-content').style.display = 'block';
     }
 
-    async function loadTakenSeats(eventId) {
-      try {
-        const res = await fetch('http://127.0.0.1:8000/orders/event/' + eventId + '/seats');
-        if (res.ok) {
-          const data = await res.json();
-          // Помечаем занятые
-          data.forEach(s => {
-            if (s.status === 'booked' || s.status === 'sold') {
-              seats.push({ row: s.row_number, num: s.seat_number, status: 'taken', type: s.seat_type });
-            }
-          });
-        }
-      } catch(e) {
-        // Демо — несколько случайных занятых мест
-        [[1,3],[1,7],[2,2],[2,5],[3,4],[3,8],[4,1],[4,6],[5,3]].forEach(([r,n]) => {
-          seats.push({ row:r, num:n, status:'taken', type: r<=2?'vip':'standard' });
-        });
+    async function loadSeats(eventId) {
+      const res = await fetch(API + '/events/' + eventId + '/seats');
+      if (!res.ok) {
+        hallSeats = [];
+        return;
       }
+      const data = await res.json();
+      hallSeats = data.map(s => ({
+        id: s.id,
+        row: s.row_number,
+        num: s.seat_number,
+        type: (s.zone || '').toUpperCase().includes('VIP') ? 'vip' : 'standard',
+        status: s.status, // free | held | sold
+        price: s.price
+      }));
     }
 
-    // ══════════════════════════════════════
-    // РЕНДЕР ИНФО
-    // ══════════════════════════════════════
     function renderEventInfo() {
       const ev = eventData;
       document.title = ev.title + ' — TicketFlow';
-      document.getElementById('ev-title').textContent         = ev.title;
+      document.getElementById('ev-title').textContent = ev.title;
       document.getElementById('ev-category-badge').textContent = ev.category || 'Мероприятие';
-      document.getElementById('ev-desc').textContent          = ev.description || '';
-      document.getElementById('ev-location').textContent      = (ev.city||'') + (ev.venue_name ? ', ' + ev.venue_name : '');
-      document.getElementById('ev-price-info').textContent    = 'от ' + (ev.price_standard||0).toLocaleString('ru') + ' ₽';
-      document.getElementById('price-std-display').textContent = (ev.price_standard||0).toLocaleString('ru') + ' ₽';
-      document.getElementById('price-vip-display').textContent = (ev.price_vip||0).toLocaleString('ru') + ' ₽';
-
+      document.getElementById('ev-desc').textContent = ev.description || '';
+      document.getElementById('ev-location').textContent =
+        (ev.city || '') + (ev.venue_name ? ', ' + ev.venue_name : '');
+      document.getElementById('ev-price-info').textContent =
+        'от ' + (ev.price_standard || 0).toLocaleString('ru') + ' ₽';
+      document.getElementById('price-std-display').textContent =
+        (ev.price_standard || 0).toLocaleString('ru') + ' ₽';
+      document.getElementById('price-vip-display').textContent =
+        (ev.price_vip || 0).toLocaleString('ru') + ' ₽';
       if (ev.event_date) {
         const d = new Date(ev.event_date);
         document.getElementById('ev-date').textContent =
-          d.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' }) +
-          ' в ' + d.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' });
+          d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) +
+          ' в ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
       }
     }
 
-    // ══════════════════════════════════════
-    // СХЕМА ЗАЛА
-    // ══════════════════════════════════════
     function renderHall() {
       const grid = document.getElementById('hall-grid');
       grid.innerHTML = '';
+      if (!hallSeats.length) {
+        grid.innerHTML = '<p class="no-seats">Схема зала пуста — создайте площадку с местами</p>';
+        return;
+      }
 
-      for (let row = 1; row <= ROWS; row++) {
+      const rows = [...new Set(hallSeats.map(s => s.row))].sort((a, b) => a - b);
+      rows.forEach(row => {
         const rowEl = document.createElement('div');
         rowEl.className = 'hall-row';
 
@@ -285,63 +248,77 @@
         rowLabel.textContent = row;
         rowEl.appendChild(rowLabel);
 
-        for (let num = 1; num <= COLS; num++) {
-          const isVip    = VIP_ROWS.includes(row);
-          const isTaken  = seats.some(s => s.row === row && s.num === num && s.status === 'taken');
-          const seatEl   = document.createElement('div');
-
-          seatEl.className = 'seat' + (isVip ? ' vip' : '') + (isTaken ? ' taken' : ' free');
-          seatEl.dataset.row = row;
-          seatEl.dataset.num = num;
-          seatEl.dataset.type = isVip ? 'vip' : 'standard';
-          seatEl.title = `Ряд ${row}, Место ${num}${isVip ? ' (VIP)' : ''}`;
-
-          if (!isTaken) {
-            seatEl.onclick = () => toggleSeat(seatEl);
+        hallSeats.filter(s => s.row === row).sort((a, b) => a.num - b.num).forEach(seat => {
+          const seatEl = document.createElement('div');
+          const blocked = seat.status === 'sold' || seat.status === 'held';
+          seatEl.className = 'seat' +
+            (seat.type === 'vip' ? ' vip' : '') +
+            (seat.status === 'sold' ? ' taken' : '') +
+            (seat.status === 'held' ? ' held' : '') +
+            (seat.status === 'free' && seat.type !== 'vip' ? ' free' : '') +
+            (seat.status === 'free' && seat.type === 'vip' ? '' : '');
+          if (seat.status === 'free' && seat.type === 'vip') {
+            seatEl.classList.add('vip');
+          } else if (seat.status === 'free') {
+            seatEl.classList.add('free');
           }
 
+          seatEl.dataset.id = seat.id;
+          seatEl.dataset.row = seat.row;
+          seatEl.dataset.num = seat.num;
+          seatEl.dataset.type = seat.type;
+          seatEl.dataset.price = seat.price;
+          seatEl.title = `Ряд ${seat.row}, место ${seat.num}` +
+            (seat.status === 'held' ? ' (забронировано)' : '') +
+            (seat.status === 'sold' ? ' (продано)' : '');
+
+          if (!blocked) {
+            seatEl.onclick = () => toggleSeat(seatEl);
+          }
           rowEl.appendChild(seatEl);
-        }
+        });
 
         const rowLabelRight = document.createElement('div');
         rowLabelRight.className = 'row-label';
         rowLabelRight.textContent = row;
         rowEl.appendChild(rowLabelRight);
-
         grid.appendChild(rowEl);
-      }
+      });
     }
 
     function toggleSeat(el) {
-      const row  = parseInt(el.dataset.row);
-      const num  = parseInt(el.dataset.num);
+      if (holdToken) {
+        showNotice('Сначала отмените текущую бронь (закройте окно оплаты)');
+        return;
+      }
+      const id = parseInt(el.dataset.id);
+      const row = parseInt(el.dataset.row);
+      const num = parseInt(el.dataset.num);
       const type = el.dataset.type;
-      const key  = `${row}-${num}`;
-      const idx  = selectedSeats.findIndex(s => s.key === key);
+      const price = parseFloat(el.dataset.price) || 0;
+      const key = id + '';
+      const idx = selectedSeats.findIndex(s => s.key === key);
 
       if (idx >= 0) {
-        // Снимаем выбор
         selectedSeats.splice(idx, 1);
         el.classList.remove('selected');
         el.classList.add(type === 'vip' ? 'vip' : 'free');
       } else {
-        // Выбираем (максимум 6 мест)
         if (selectedSeats.length >= 6) {
           showNotice('Максимум 6 мест за раз');
           return;
         }
-        selectedSeats.push({ key, row, num, type });
+        selectedSeats.push({ key, id, row, num, type, price });
         el.classList.remove('vip', 'free');
         el.classList.add('selected');
       }
-
       updateSidebar();
     }
 
     function updateSidebar() {
-      const list    = document.getElementById('selected-seats-list');
-      const total   = document.getElementById('price-total');
-      const btn     = document.getElementById('btn-checkout');
+      const list = document.getElementById('selected-seats-list');
+      const total = document.getElementById('price-total');
+      const btn = document.getElementById('btn-checkout');
       const totalEl = document.getElementById('total-price');
 
       if (!selectedSeats.length) {
@@ -353,48 +330,137 @@
 
       let sum = 0;
       list.innerHTML = selectedSeats.map(s => {
-        const price = s.type === 'vip' ? (eventData.price_vip||0) : (eventData.price_standard||0);
-        sum += price;
+        sum += s.price;
         return `<div class="selected-seat-item">
-          <span>Ряд ${s.row}, место ${s.num} ${s.type==='vip'?'<span class="vip-tag">VIP</span>':''}</span>
-          <span>${price.toLocaleString('ru')} ₽</span>
+          <span>Ряд ${s.row}, место ${s.num} ${s.type === 'vip' ? '<span class="vip-tag">VIP</span>' : ''}</span>
+          <span>${s.price.toLocaleString('ru')} ₽</span>
         </div>`;
       }).join('');
-
       totalEl.textContent = sum.toLocaleString('ru') + ' ₽';
       total.style.display = 'flex';
       btn.disabled = false;
     }
 
-    // ══════════════════════════════════════
-    // ОПЛАТА
-    // ══════════════════════════════════════
-    function goToCheckout() {
-      if (!selectedSeats.length) return;
+    async function goToCheckout() {
+      if (!selectedSeats.length || holdExpired) return;
 
-      // Заполняем summary
-      let sum = 0;
-      const items = selectedSeats.map(s => {
-        const price = s.type === 'vip' ? (eventData.price_vip||0) : (eventData.price_standard||0);
-        sum += price;
-        return `<div class="ch-seat-item">
-          <span>Ряд ${s.row}, место ${s.num} ${s.type==='vip'?'<b style="color:#f39c12">VIP</b>':''}</span>
-          <span>${price.toLocaleString('ru')} ₽</span>
-        </div>`;
-      }).join('');
+      const btn = document.getElementById('btn-checkout');
+      btn.disabled = true;
+      btn.textContent = 'Бронируем...';
 
-      document.getElementById('checkout-summary').innerHTML = `
-        <div class="ch-event-name">${eventData.title}</div>
-        <div class="ch-event-date">${document.getElementById('ev-date').textContent}</div>
-        <div class="ch-event-loc">${document.getElementById('ev-location').textContent}</div>`;
+      try {
+        const res = await fetch(API + '/holds/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event_id: parseInt(eventData.id),
+            seat_ids: selectedSeats.map(s => s.id)
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          showNotice(data.detail || 'Не удалось забронировать места');
+          await loadSeats(eventData.id);
+          renderHall();
+          selectedSeats = [];
+          updateSidebar();
+          btn.textContent = 'Перейти к оплате →';
+          return;
+        }
 
-      document.getElementById('order-items').innerHTML = items;
-      document.getElementById('order-total-final').textContent = sum.toLocaleString('ru') + ' ₽';
-      document.getElementById('modal-checkout').style.display = 'flex';
+        holdToken = data.token;
+        holdExpiresAt = data.expires_at ? new Date(data.expires_at) : new Date(Date.now() + (data.ttl_seconds || 600) * 1000);
+        holdExpired = false;
+        startHoldTimer();
+
+        const sum = selectedSeats.reduce((a, s) => a + s.price, 0);
+        document.getElementById('checkout-summary').innerHTML = `
+          <div class="ch-event-name">${eventData.title}</div>
+          <div class="ch-event-date">${document.getElementById('ev-date').textContent}</div>
+          <div class="ch-event-loc">${document.getElementById('ev-location').textContent}</div>`;
+        document.getElementById('order-items').innerHTML = selectedSeats.map(s =>
+          `<div class="ch-seat-item">
+            <span>Ряд ${s.row}, место ${s.num} ${s.type === 'vip' ? '<b style="color:#f39c12">VIP</b>' : ''}</span>
+            <span>${s.price.toLocaleString('ru')} ₽</span>
+          </div>`
+        ).join('');
+        document.getElementById('order-total-final').textContent = sum.toLocaleString('ru') + ' ₽';
+        document.getElementById('modal-checkout').style.display = 'flex';
+      } catch (e) {
+        showNotice('Нет связи с сервером');
+      } finally {
+        btn.disabled = !selectedSeats.length;
+        btn.textContent = 'Перейти к оплате →';
+      }
     }
 
-    function closeCheckout() {
+    function startHoldTimer() {
+      stopHoldTimer();
+      const el = document.getElementById('hold-timer');
+      const tick = () => {
+        const leftMs = holdExpiresAt - new Date();
+        const left = Math.max(0, Math.floor(leftMs / 1000));
+        const mm = String(Math.floor(left / 60)).padStart(2, '0');
+        const ss = String(left % 60).padStart(2, '0');
+        el.textContent = 'Бронь действует: ' + mm + ':' + ss;
+        el.classList.toggle('warning', left <= 60 && left > 0);
+        el.classList.toggle('expired', left === 0);
+        if (left === 0) {
+          onHoldExpired();
+        }
+      };
+      tick();
+      holdTimerId = setInterval(tick, 1000);
+    }
+
+    function stopHoldTimer() {
+      if (holdTimerId) {
+        clearInterval(holdTimerId);
+        holdTimerId = null;
+      }
+    }
+
+    async function onHoldExpired() {
+      stopHoldTimer();
+      holdExpired = true;
+      document.getElementById('expiry-banner').style.display = 'block';
       document.getElementById('modal-checkout').style.display = 'none';
+      document.getElementById('btn-pay').disabled = true;
+      if (holdToken) {
+        try { await fetch(API + '/holds/' + holdToken, { method: 'DELETE' }); } catch (e) {}
+      }
+      holdToken = null;
+      selectedSeats = [];
+      updateSidebar();
+      await loadSeats(eventData.id);
+      renderHall();
+    }
+
+    function dismissExpiry() {
+      document.getElementById('expiry-banner').style.display = 'none';
+      holdExpired = false;
+      document.getElementById('btn-pay').disabled = false;
+    }
+
+    async function closeCheckout() {
+      document.getElementById('modal-checkout').style.display = 'none';
+      stopHoldTimer();
+      if (holdToken) {
+        try { await fetch(API + '/holds/' + holdToken, { method: 'DELETE' }); } catch (e) {}
+        holdToken = null;
+        holdExpiresAt = null;
+        await loadSeats(eventData.id);
+        renderHall();
+        // keep selectedSeats for re-try
+        selectedSeats.forEach(s => {
+          const el = document.querySelector(`.seat[data-id="${s.id}"]`);
+          if (el && !el.classList.contains('taken') && !el.classList.contains('held')) {
+            el.classList.remove('vip', 'free');
+            el.classList.add('selected');
+          }
+        });
+        updateSidebar();
+      }
     }
 
     function formatPhone(input) {
@@ -411,163 +477,137 @@
     }
 
     async function submitPayment() {
-      const fio   = document.getElementById('ch-fio').value.trim();
+      if (!holdToken || holdExpired) {
+        showNotice('Бронь истекла — выберите места снова');
+        return;
+      }
+
+      const fio = document.getElementById('ch-fio').value.trim();
       const email = document.getElementById('ch-email').value.trim();
       const phone = document.getElementById('ch-phone').value.trim();
-
-      // Валидация
       let valid = true;
-
-      // Проверяем что поля не пустые
-      [['ch-fio',fio],['ch-email',email],['ch-phone',phone]].forEach(([id,val]) => {
+      [['ch-fio', fio], ['ch-email', email], ['ch-phone', phone]].forEach(([id, val]) => {
         const el = document.getElementById(id);
         if (!val) { el.style.borderColor = '#e74c3c'; valid = false; }
         else el.style.borderColor = '';
       });
-
-      // Проверяем email
       if (email && !email.includes('@')) {
         document.getElementById('ch-email').style.borderColor = '#e74c3c';
         valid = false;
       }
-
-      // Убираем подсветку с ФИО если заполнено (убираем старый баг)
-      if (fio) {
-        document.getElementById('ch-fio').style.borderColor = '';
-      }
-
       if (!valid) return;
 
       const btn = document.getElementById('btn-pay');
-      btn.textContent = '⏳ Обработка...';
+      btn.textContent = 'Обработка...';
       btn.disabled = true;
 
-      // Считаем сумму
-      const totalSum = selectedSeats.reduce((s, seat) => {
-        return s + (seat.type === 'vip' ? (eventData.price_vip||0) : (eventData.price_standard||0));
-      }, 0);
-
-      const orderNum = 'TCK-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000);
+      const totalSum = selectedSeats.reduce((s, seat) => s + seat.price, 0);
 
       try {
-        // POST заказа в FastAPI
-        const token = localStorage.getItem('token') || '';
-        const res = await fetch('http://127.0.0.1:8000/orders/', {
+        const createRes = await fetch(API + '/orders/', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { 'Authorization': 'Bearer ' + token } : {})
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            event_id:     parseInt(eventData.id),
-            user_email:   email,
-            user_name:    fio,
-            user_phone:   phone,
-            seats:        selectedSeats.map(s => ({ row: s.row, seat: s.num, type: s.type })),
-            total_price:  totalSum,
-            is_paid:      true,
-            order_number: orderNum
+            event_id: parseInt(eventData.id),
+            user_email: email,
+            user_name: fio,
+            user_phone: phone,
+            seats: selectedSeats.map(s => ({ row: s.row, seat: s.num, type: s.type })),
+            total_price: totalSum,
+            hold_token: holdToken
           })
         });
-
-        if (res.ok) {
-          const data = await res.json();
-          orderData = { orderNum: data.order_number || orderNum, fio, email, phone, totalSum, seats: [...selectedSeats] };
-        } else {
-          // Если API не готов — работаем в демо-режиме
-          orderData = { orderNum, fio, email, phone, totalSum, seats: [...selectedSeats] };
+        const created = await createRes.json().catch(() => ({}));
+        if (!createRes.ok) {
+          showNotice(typeof created.detail === 'string' ? created.detail : 'Не удалось создать заказ');
+          if (createRes.status === 410 || createRes.status === 409) {
+            await onHoldExpired();
+          }
+          btn.textContent = 'Оплатить';
+          btn.disabled = false;
+          return;
         }
-      } catch(e) {
-        // Нет соединения — демо
-        orderData = { orderNum, fio, email, phone, totalSum, seats: [...selectedSeats] };
-      }
 
-      closeCheckout();
-      document.getElementById('success-order-num').textContent = 'Номер заказа: ' + orderData.orderNum;
-      document.getElementById('modal-success').style.display = 'flex';
+        const payRes = await fetch(API + '/orders/' + created.order_id + '/pay', { method: 'POST' });
+        const paid = await payRes.json().catch(() => ({}));
+        if (!payRes.ok) {
+          showNotice(typeof paid.detail === 'string' ? paid.detail : 'Ошибка оплаты');
+          if (payRes.status === 410) await onHoldExpired();
+          btn.textContent = 'Оплатить';
+          btn.disabled = false;
+          return;
+        }
+
+        stopHoldTimer();
+        holdToken = null;
+        orderData = {
+          orderNum: paid.order_number || ('ORDER-' + created.order_id),
+          orderId: created.order_id,
+          fio, email, phone, totalSum,
+          seats: [...selectedSeats],
+          tickets: paid.tickets || []
+        };
+
+        closeCheckoutKeepHold();
+        document.getElementById('success-order-num').textContent =
+          'Заказ #' + orderData.orderId + ' · ' + orderData.orderNum;
+        const qrBox = document.getElementById('success-qr-list');
+        qrBox.innerHTML = (orderData.tickets || []).map(t =>
+          t.qr_url
+            ? `<div><img src="${t.qr_url}" alt="${t.ticket_number}"/><div style="font-size:11px;margin-top:4px;">${t.ticket_number}</div></div>`
+            : ''
+        ).join('');
+        document.getElementById('modal-success').style.display = 'flex';
+        selectedSeats = [];
+        updateSidebar();
+        await loadSeats(eventData.id);
+        renderHall();
+      } catch (e) {
+        showNotice('Ошибка сети при оплате');
+        btn.textContent = 'Оплатить';
+        btn.disabled = false;
+      }
     }
 
-    // ══════════════════════════════════════
-    // PDF БИЛЕТ (без сервера, прямо в браузере)
-    // ══════════════════════════════════════
+    function closeCheckoutKeepHold() {
+      document.getElementById('modal-checkout').style.display = 'none';
+      stopHoldTimer();
+    }
+
     function downloadPDF() {
-      const ev    = eventData;
-      const od    = orderData;
-      const date  = document.getElementById('ev-date').textContent;
-      const loc   = document.getElementById('ev-location').textContent;
+      const ev = eventData;
+      const od = orderData;
+      if (!od) return;
+      const date = document.getElementById('ev-date').textContent;
+      const loc = document.getElementById('ev-location').textContent;
+      const qrImgs = (od.tickets || []).map(t =>
+        t.qr_url ? `<img src="${t.qr_url}" width="120" height="120" style="margin:8px;"/>` : ''
+      ).join('');
 
-      // Создаём HTML для печати → PDF
-      const seatsText = od.seats.map(s =>
-        `Ряд ${s.row}, место ${s.num} (${s.type === 'vip' ? 'VIP' : 'Стандарт'})`
-      ).join('\n');
-
-      const html = `<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8"/>
+      const html = `<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"/>
 <style>
-  @page { size: A4; margin: 20mm; }
-  body { font-family: Arial, sans-serif; color: #111; }
-  .ticket { border: 3px solid #1dc8a8; border-radius: 12px; padding: 30px; max-width: 600px; margin: 0 auto; }
-  .ticket-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #1dc8a8; padding-bottom: 16px; margin-bottom: 20px; }
-  .logo-text { font-size: 28px; font-weight: 900; color: #1dc8a8; letter-spacing: -1px; }
-  .ticket-type { font-size: 13px; color: #888; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
-  .event-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-  .event-info { font-size: 14px; color: #555; margin-bottom: 6px; }
-  .divider { border: none; border-top: 1px dashed #ccc; margin: 20px 0; }
-  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .field-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-  .field-value { font-size: 15px; font-weight: 600; margin-top: 4px; }
-  .seats-block { grid-column: 1/-1; background: #f8f9fa; border-radius: 8px; padding: 12px 16px; }
-  .order-num { font-size: 13px; color: #888; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee; }
-  .total-price { font-size: 22px; font-weight: 700; color: #1dc8a8; }
-  .footer-note { font-size: 11px; color: #aaa; margin-top: 20px; text-align: center; }
-</style>
-</head>
-<body>
+  body{font-family:Arial,sans-serif;color:#111}
+  .ticket{border:3px solid #1dc8a8;border-radius:12px;padding:30px;max-width:600px;margin:0 auto}
+  .logo-text{font-size:28px;font-weight:900;color:#1dc8a8}
+  .event-name{font-size:24px;font-weight:700;margin:12px 0}
+</style></head><body>
 <div class="ticket">
-  <div class="ticket-header">
-    <div class="logo-text">TicketFlow</div>
-    <div class="ticket-type">🎟 Электронный билет</div>
-  </div>
+  <div class="logo-text">TicketFlow</div>
   <div class="event-name">${ev.title}</div>
-  <div class="event-info">📅 ${date}</div>
-  <div class="event-info">📍 ${loc}</div>
-  <hr class="divider"/>
-  <div class="fields">
-    <div>
-      <div class="field-label">Владелец</div>
-      <div class="field-value">${od.fio}</div>
-    </div>
-    <div>
-      <div class="field-label">Email</div>
-      <div class="field-value">${od.email}</div>
-    </div>
-    <div>
-      <div class="field-label">Телефон</div>
-      <div class="field-value">${od.phone}</div>
-    </div>
-    <div>
-      <div class="field-label">Сумма</div>
-      <div class="field-value total-price">${od.totalSum.toLocaleString('ru')} ₽</div>
-    </div>
-    <div class="seats-block">
-      <div class="field-label">Места</div>
-      ${od.seats.map(s => `<div class="field-value" style="margin-top:4px;">Ряд ${s.row}, место ${s.num} — ${s.type==='vip'?'VIP':'Стандарт'}</div>`).join('')}
-    </div>
-  </div>
-  <div class="order-num">Номер заказа: <strong>${od.orderNum}</strong></div>
-  <div class="footer-note">TicketFlow · Данный билет является действительным документом для прохода на мероприятие</div>
-</div>
-</body>
-</html>`;
+  <div>${date}</div><div>${loc}</div>
+  <p>Владелец: <b>${od.fio}</b></p>
+  <p>Email: ${od.email}</p>
+  <p>Сумма: <b>${od.totalSum.toLocaleString('ru')} ₽</b></p>
+  <div>${od.seats.map(s => `Ряд ${s.row}, место ${s.num}`).join('<br/>')}</div>
+  <div style="margin-top:16px">${qrImgs}</div>
+  <p>Номер: <strong>${od.orderNum}</strong></p>
+</div></body></html>`;
 
-      // Открываем окно печати → сохранить как PDF
       const win = window.open('', '_blank', 'width=800,height=900');
       win.document.write(html);
       win.document.close();
       win.focus();
-      setTimeout(() => { win.print(); }, 500);
+      setTimeout(() => win.print(), 500);
     }
 
     function showNotice(msg) {
@@ -575,17 +615,16 @@
       n.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:9999;';
       n.textContent = msg;
       document.body.appendChild(n);
-      setTimeout(() => n.remove(), 2500);
+      setTimeout(() => n.remove(), 2800);
     }
 
-    // Закрыть модалку по фону
     document.querySelectorAll('.modal-overlay').forEach(o => {
       o.addEventListener('click', e => {
-        if (e.target === o && o.id !== 'modal-success') o.style.display = 'none';
+        if (e.target === o && o.id === 'modal-checkout') closeCheckout();
       });
     });
 
     init();
   </script>
 </body>
-</html
+</html>
