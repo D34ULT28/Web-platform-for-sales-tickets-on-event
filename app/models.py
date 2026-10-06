@@ -53,8 +53,6 @@ class Order(Base):
     event_id    = Column(Integer, ForeignKey("events.id"), nullable=False)
     total_price = Column(Numeric(10,2), nullable=False)
     status      = Column(String(20), default="pending")
-    hold_token  = Column(String(36), nullable=True)
-    expires_at  = Column(TIMESTAMP, nullable=True)
     created_at  = Column(TIMESTAMP, server_default=func.now())
 
 class OrderSeat(Base):
@@ -65,17 +63,6 @@ class OrderSeat(Base):
     event_id    = Column(Integer, ForeignKey("events.id"), nullable=False)
     is_reserved = Column(Boolean, default=False)
     __table_args__ = (UniqueConstraint("seat_id", "event_id"),)
-
-class SeatHold(Base):
-    """Hard hold места в PostgreSQL (вместо Redis)."""
-    __tablename__ = "seat_holds"
-    id         = Column(Integer, primary_key=True)
-    token      = Column(String(36), nullable=False, index=True)
-    event_id   = Column(Integer, ForeignKey("events.id"), nullable=False)
-    seat_id    = Column(Integer, ForeignKey("seats.id"), nullable=False)
-    expires_at = Column(TIMESTAMP, nullable=False)
-    created_at = Column(TIMESTAMP, server_default=func.now())
-    __table_args__ = (UniqueConstraint("event_id", "seat_id"),)
 
 class Ticket(Base):
     __tablename__ = "tickets"

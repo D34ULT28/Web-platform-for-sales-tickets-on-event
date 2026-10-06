@@ -87,7 +87,6 @@ body { font-family: 'Manrope', sans-serif; background: var(--bg); color: var(--t
 .seat-demo.vip      { background:linear-gradient(135deg,#f6c048,#e8a020); }
 .seat-demo.selected { background:var(--accent); }
 .seat-demo.taken    { background:#ccc; }
-.seat-demo.held     { background:#f0c9a0; border:1px solid #e0a870; }
 
 .hall-grid { display:flex; flex-direction:column; gap:6px; }
 .hall-row  { display:flex; align-items:center; gap:5px; }
@@ -117,38 +116,6 @@ body { font-family: 'Manrope', sans-serif; background: var(--bg); color: var(--t
 .seat.taken {
   background: #d0d5de; border-color: #b8bdc8;
   cursor: not-allowed; opacity: 0.5;
-}
-.seat.held {
-  background: #f0c9a0; border-color: #e0a870;
-  cursor: not-allowed; opacity: 0.7;
-}
-
-.hold-timer {
-  margin: 12px 0 0;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: #f4f7fb;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  font-weight: 600;
-  color: #222;
-}
-.hold-timer.warning { background: #fff4e5; border-color: #f0c9a0; color: #9a5b00; }
-.hold-timer.expired { background: #fdecea; border-color: #f5c2c0; color: #b42318; }
-
-.expiry-banner {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 10000;
-  background: #b42318; color: #fff; text-align: center;
-  padding: 12px 16px; font-size: 14px; font-weight: 600;
-  display: none;
-}
-.expiry-banner a { color: #fff; text-decoration: underline; margin-left: 8px; }
-
-.success-qr-list {
-  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 16px 0;
-}
-.success-qr-list img {
-  width: 120px; height: 120px; background: #fff; border: 1px solid #ddd; border-radius: 8px;
 }
 
 /* ── БОКОВАЯ ПАНЕЛЬ ── */

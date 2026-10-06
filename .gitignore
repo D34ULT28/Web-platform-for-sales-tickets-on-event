@@ -2,5 +2,3 @@ venv/
 __pycache__/
 *.pyc
 .env
-app/static/qr/*.png
-!app/static/qr/.gitkeep
